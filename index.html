@@ -358,6 +358,22 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   .sc-ava{width:22px;height:22px;font-size:8px;margin-bottom:2px}
   .sc-nm{font-size:12px}
 }
+
+/* ── Phone compact view: avatar-only grid, no horizontal scroll ── */
+@media(max-width:560px){
+  .fp-outer{padding:6px;overflow:hidden}
+  .fp-wrap{min-width:unset;padding:6px 4px}
+  .rl-row{grid-template-columns:repeat(4,1fr) 6px repeat(4,1fr);gap:2px}
+  .sg{grid-template-columns:repeat(4,1fr) 6px repeat(4,1fr);gap:2px}
+  .rg{margin-bottom:6px;padding-top:6px}
+  .sc{height:52px;padding:3px;align-items:center;justify-content:center;gap:1px}
+  .sc-h{display:none}
+  .sc-ava{width:30px;height:30px;font-size:10px;margin-bottom:0}
+  .sc-nm,.sc-tg{display:none}
+  .sc-av{font-size:9px;text-align:center;overflow:hidden;white-space:nowrap;margin-top:0}
+  .rl{font-size:7px}
+  .fl-lbl{font-size:9px;padding:2px 6px}
+}
 </style>
 </head>
 <body>
