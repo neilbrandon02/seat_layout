@@ -338,8 +338,10 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
 .day-dn{font-size:18px;font-weight:700;line-height:1}
 .day-dname{font-size:11px;opacity:.7}
 .day-tab.today:not(.active) .day-dname::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);display:inline-block;margin-left:4px;vertical-align:middle}
-.sc-nm{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:3px;line-height:1.3}
-.sc{height:100px;justify-content:flex-start;gap:4px;transition:opacity .15s,transform .12s,box-shadow .12s}
+.sc-nm{font-size:13px;font-weight:600;overflow:hidden;word-break:break-word;white-space:normal;text-align:center;width:100%;line-height:1.3;margin:0}
+.sc-tg{position:absolute;top:5px;right:6px;font-size:8px;max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-h{position:absolute;top:7px;left:9px;right:9px;margin-bottom:0}
+.sc{position:relative;height:100px;align-items:center;justify-content:center;gap:0;transition:opacity .15s,transform .12s,box-shadow .12s}
 .sc:not(.dimmed):not(.unavail):hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.22)}
 .cbar-row{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
 .cbar-row .srch{max-width:none;flex:1}
@@ -365,10 +367,10 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   .rl-row{grid-template-columns:repeat(4,56px) 4px repeat(4,56px);gap:2px}
   .sg{grid-template-columns:repeat(4,56px) 4px repeat(4,56px);gap:2px}
   .rg{margin-bottom:4px;padding-top:4px}
-  .sc{height:52px;min-height:0;width:56px;padding:3px 3px;align-items:flex-start;justify-content:flex-start;gap:1px;box-sizing:border-box}
+  .sc{height:52px;min-height:0;width:56px;padding:3px 3px;align-items:center;justify-content:center;gap:0;box-sizing:border-box}
   .sc-h{display:none}
-  .sc-nm{font-size:9px;margin-bottom:0;line-height:1.2;white-space:normal;word-break:break-word;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-  .sc-tg{display:none}
+  .sc-nm{font-size:9px;line-height:1.2;text-align:center;width:100%}
+  .sc-tg{top:2px;right:2px;font-size:6px;padding:0 2px;max-width:calc(100% - 4px)}
   .sc-av{font-size:8px;text-align:center;overflow:hidden;white-space:nowrap;margin-top:0;max-width:100%}
   .rl{font-size:7px;letter-spacing:0}
   .fl-lbl{font-size:9px;padding:2px 4px}
