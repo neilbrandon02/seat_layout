@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" async></script>
 <title>MHSC AO ATCP — Seat Layout FY25</title>
 <style>
 /* ── Theme ─────────────────────────────────── */
@@ -807,14 +808,17 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
 
 <div id="view-editor" class="view">
   <div class="ebar">
-    <button onclick="exportMembersCSV()">⬇ Export Members</button>
-    <button onclick="exportScheduleCSV()">⬇ Export Schedule</button>
-    <button onclick="document.getElementById('imp-members-csv').click()">⬆ Import Members</button>
-    <button onclick="document.getElementById('imp-schedule-csv').click()">⬆ Import Schedule</button>
+    <button onclick="document.getElementById('imp-xl').click()" title="Upload an Excel file with Schedule + Members sheets">📤 Upload Excel</button>
+    <button onclick="downloadTemplate()" title="Download the current data as an Excel template you can edit">📥 Download Template</button>
+    <button onclick="exportHTML()" title="Save all changes back into the HTML file — replace the file in the repo and push to update everyone" style="background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:600">💾 Save → Download HTML</button>
+    <input type="file" id="imp-xl" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)">
+    <span style="width:1px;background:var(--bd);align-self:stretch;margin:2px 4px;display:inline-block"></span>
+    <button onclick="exportMembersCSV()">⬇ Members CSV</button>
+    <button onclick="exportScheduleCSV()">⬇ Schedule CSV</button>
+    <button onclick="document.getElementById('imp-members-csv').click()">⬆ Members CSV</button>
+    <button onclick="document.getElementById('imp-schedule-csv').click()">⬆ Schedule CSV</button>
     <input type="file" id="imp-members-csv" accept=".csv" style="display:none" onchange="importMembersCSV(this)">
     <input type="file" id="imp-schedule-csv" accept=".csv" style="display:none" onchange="importScheduleCSV(this)">
-    <!-- <button onclick="exportMembersJSON()" style="color:var(--tx3)">⬇ members.json</button> -->
-    <!-- <button onclick="exportScheduleJSON()" style="color:var(--tx3)">⬇ schedule.json</button> -->
     <span class="sv-ind" id="sv-ind">✓ Saved</span>
   </div>
   <div class="ed-section">
@@ -1711,6 +1715,107 @@ function importScheduleCSV(input){
     input.value='';
   };
   reader.readAsText(file);
+}
+
+// ── Excel Import / Export ────────────────────────────────────────────────────
+// Sheet "Schedule": Seat | Monday | Tuesday | Wednesday | Thursday | Friday
+//   Cell value = nickname (e.g. "PEGA-Calvin"), blank = empty, "Unavailable" = blocked
+// Sheet "Members": EID | Nickname | Team | IP
+async function importExcel(inp){
+  const file=inp.files[0];if(!file)return;
+  if(!window.XLSX){alert('Excel library still loading — please wait a moment and try again.');inp.value='';return;}
+  try{
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:'array'});
+    let schedUpdated=0,membUpdated=0;
+
+    // Schedule sheet
+    const sName=wb.SheetNames.find(n=>/schedule/i.test(n))||wb.SheetNames[0];
+    const sSheet=wb.Sheets[sName];
+    if(sSheet){
+      const rows=XLSX.utils.sheet_to_json(sSheet,{header:1,defval:''});
+      const dayMap=[{col:1,full:'Monday'},{col:2,full:'Tuesday'},{col:3,full:'Wednesday'},{col:4,full:'Thursday'},{col:5,full:'Friday'}];
+      for(let i=1;i<rows.length;i++){
+        const r=rows[i];
+        const sid=(r[0]||'').toString().trim();
+        if(!sid||isNA(sid)||!scheduleData[sid])continue;
+        dayMap.forEach(({col,full})=>{
+          const val=(r[col]||'').toString().trim();
+          if(/^unavailable$|^x$/i.test(val)){
+            scheduleData[sid][full]={name:'',ip:'',unavailable:true};
+          }else{
+            const member=val?resolveOccupant(val):null;
+            scheduleData[sid][full]={name:val,ip:member?.ip||'',unavailable:false};
+          }
+        });
+        schedUpdated++;
+      }
+    }
+
+    // Members sheet (optional)
+    const mName=wb.SheetNames.find(n=>/member/i.test(n));
+    if(mName){
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[mName],{header:1,defval:''});
+      const nr=[];
+      for(let i=1;i<rows.length;i++){
+        const r=rows[i];
+        const name=(r[0]||'').toString().trim();
+        if(!name)continue;
+        nr.push({name,nickname:(r[1]||'').toString().trim()||name,team:(r[2]||'').toString().trim(),ip:(r[3]||'').toString().trim()});
+      }
+      if(nr.length){roster=nr;membUpdated=nr.length;}
+    }
+
+    indSave();renderEditor();renderDashboard();
+    const parts=[];
+    if(schedUpdated)parts.push(schedUpdated+' seats updated');
+    if(membUpdated)parts.push(membUpdated+' members imported');
+    alert('Excel imported: '+(parts.join(', ')||'nothing changed')+'.\n\nClick "Save → Download HTML" to lock in the changes for everyone.');
+  }catch(err){alert('Error reading Excel:\n'+err.message);}
+  inp.value='';
+}
+
+function downloadTemplate(){
+  if(!window.XLSX){alert('Excel library still loading — please wait a moment and try again.');return;}
+  const wb=XLSX.utils.book_new();
+
+  // Schedule sheet — all seats, current assignments
+  const sRows=[['Seat','Monday','Tuesday','Wednesday','Thursday','Friday']];
+  ALL_SEATS.filter(s=>!isNA(s)).forEach(sid=>{
+    const row=[sid];
+    ['Monday','Tuesday','Wednesday','Thursday','Friday'].forEach(full=>{
+      const c=scheduleData[sid]?.[full]||{};
+      row.push(c.unavailable?'Unavailable':(c.name||''));
+    });
+    sRows.push(row);
+  });
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sRows),'Schedule');
+
+  // Members sheet
+  const mRows=[['EID','Nickname','Team','IP']];
+  roster.forEach(r=>mRows.push([r.name,r.nickname||r.name,r.team,r.ip||'']));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(mRows),'Members');
+
+  XLSX.writeFile(wb,'seat_layout_template.xlsx');
+}
+
+async function exportHTML(){
+  try{
+    const resp=await fetch(window.location.href);
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    let html=await resp.text();
+    const mJson=JSON.stringify({members:roster.map(r=>({name:r.name,nickname:r.nickname||r.name,team:r.team,ip:r.ip||''}))},null,2);
+    const sJson=JSON.stringify({seats:scheduleData},null,2);
+    html=html.replace(/(<script[^>]+id="data-members"[^>]*>)([\s\S]*?)(<\/script>)/,(_,a,b,c)=>a+'\n'+mJson+'\n'+c);
+    html=html.replace(/(<script[^>]+id="data-schedule"[^>]*>)([\s\S]*?)(<\/script>)/,(_,a,b,c)=>a+'\n'+sJson+'\n'+c);
+    const blob=new Blob([html],{type:'text/html'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download='seat_layout_dashboard.html';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  }catch(err){
+    alert('Could not fetch page source — this feature requires the dashboard to be open via GitHub Pages (not a local file).\n\nError: '+err.message);
+  }
 }
 
 // ═══════════════════════════════════════
