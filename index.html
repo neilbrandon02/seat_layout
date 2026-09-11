@@ -1,0 +1,1918 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MHSC AO ATCP — Seat Layout FY25</title>
+<style>
+/* ── Theme ─────────────────────────────────── */
+html{color-scheme:dark;height:100%;width:100%}
+html[data-theme="light"]{color-scheme:light}
+:root{
+  --bg0:#111110;--bg1:#1c1c1a;--bg2:#252523;
+  --bd:rgba(255,255,255,.1);--bd-s:rgba(255,255,255,.18);
+  --tx1:#ede9e4;--tx2:#a09d98;--tx3:#706d68;
+  --ac:#60a5fa;--ac-bg:#0c1927;--ac-bd:#1e3a5f;
+  --ok:#34d399;--ok-bg:#064e3b;--ok-bd:#065f46;
+  --er:#f87171;--er-bg:#450a0a;--er-bd:#7f1d1d;
+  --wa:#fbbf24;--wa-bg:#451a03;--wa-bd:#78350f;
+  --r:8px;--mono:'Cascadia Code','Consolas','SF Mono',monospace;
+
+  /* ── Team color tokens (dark) ─────────────── */
+  --t-pmo-bg:#3C3489;--t-pmo-tx:#CECBF6;--t-pmo-bo:#534AB7;    /* PMO        */
+  --t-mdb-bg:#612A12;--t-mdb-tx:#F0B89A;--t-mdb-bo:#8E3D1A;    /* MarketDB   */
+  --t-otc-bg:#0C3D6E;--t-otc-tx:#90C7F0;--t-otc-bo:#1A6BA8;    /* OTC Deriv  */
+  --t-irs-bg:#3B2457;--t-irs-tx:#C4A8F0;--t-irs-bo:#6B4AB0;    /* IR Server  */
+  --t-peg-bg:#5C1E3A;--t-peg-tx:#F0A8C5;--t-peg-bo:#993556;    /* PEGA       */
+  --t-mas-bg:#27500A;--t-mas-tx:#C0DD97;--t-mas-bo:#3B6D11;    /* Master     */
+  --t-csh-bg:#042C53;--t-csh-tx:#85B7EB;--t-csh-bo:#185FA5;    /* Cash Mgmt  */
+  --t-acc-bg:#2E2E2C;--t-acc-tx:#D0CEC3;--t-acc-bo:#515149;    /* Accounting */
+  --t-odm-bg:#04342C;--t-odm-tx:#5DCAA5;--t-odm-bo:#0F6E56;    /* ODMS       */
+  --t-qa-bg:#412402; --t-qa-tx:#EF9F27; --t-qa-bo:#854F0B;     /* FIQA       */
+  --t-res-bg:#4A1B0C;--t-res-tx:#F0997B;--t-res-bo:#993C1D;    /* Research   */
+  --t-rit-bg:#501313;--t-rit-tx:#F09595;--t-rit-bo:#A32D2D;    /* Risk IT    */
+  --t-rec-bg:#26215C;--t-rec-tx:#AFA9EC;--t-rec-bo:#534AB7;    /* Risk EUC   */
+}
+
+/* ── Light mode overrides ──────────────────── */
+html[data-theme="light"]{
+  --bg0:#f5f4f2;--bg1:#ebebea;--bg2:#ffffff;
+  --bd:rgba(0,0,0,.1);--bd-s:rgba(0,0,0,.18);
+  --tx1:#1a1a18;--tx2:#5a5854;--tx3:#8a8782;
+  --ac:#2563eb;--ac-bg:#eff6ff;--ac-bd:#bfdbfe;
+  --ok:#059669;--ok-bg:#ecfdf5;--ok-bd:#a7f3d0;
+  --er:#dc2626;--er-bg:#fef2f2;--er-bd:#fecaca;
+  --wa:#d97706;--wa-bg:#fffbeb;--wa-bd:#fde68a;
+
+  --t-pmo-bg:#e8e6fc;--t-pmo-tx:#3730a3;--t-pmo-bo:#c4b5fd;
+  --t-mdb-bg:#fef0eb;--t-mdb-tx:#9a3412;--t-mdb-bo:#fdba74;
+  --t-otc-bg:#eff6ff;--t-otc-tx:#1e40af;--t-otc-bo:#bfdbfe;
+  --t-irs-bg:#f5f3ff;--t-irs-tx:#5b21b6;--t-irs-bo:#ddd6fe;
+  --t-peg-bg:#fdf2f8;--t-peg-tx:#9d174d;--t-peg-bo:#fbcfe8;
+  --t-mas-bg:#f0fdf4;--t-mas-tx:#166534;--t-mas-bo:#bbf7d0;
+  --t-csh-bg:#eff6ff;--t-csh-tx:#1d4ed8;--t-csh-bo:#bfdbfe;
+  --t-acc-bg:#f9fafb;--t-acc-tx:#374151;--t-acc-bo:#d1d5db;
+  --t-odm-bg:#ecfdf5;--t-odm-tx:#065f46;--t-odm-bo:#6ee7b7;
+  --t-qa-bg:#fffbeb; --t-qa-tx:#92400e; --t-qa-bo:#fcd34d;
+  --t-res-bg:#fff7ed;--t-res-tx:#9a3412;--t-res-bo:#fdba74;
+  --t-rit-bg:#fef2f2;--t-rit-tx:#991b1b;--t-rit-bo:#fca5a5;
+  --t-rec-bg:#eef2ff;--t-rec-tx:#3730a3;--t-rec-bo:#c7d2fe;
+}
+
+/* base reset */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg0);color:var(--tx1);font-size:14px;line-height:1.5;min-height:100vh}
+button{font-family:inherit;font-size:12px;cursor:pointer;background:var(--bg2);color:var(--tx1);border:0.5px solid var(--bd-s);border-radius:var(--r);padding:5px 11px;transition:background .12s,box-shadow .12s;display:inline-flex;align-items:center;gap:5px}
+button:hover{background:var(--bg1)}
+input,select{font-family:inherit;font-size:12px;background:var(--bg2);color:var(--tx1);border:0.5px solid var(--bd-s);border-radius:var(--r);padding:4px 8px;height:30px;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ac-bg)}
+input::placeholder{color:var(--tx3)}
+code{font-family:var(--mono);font-size:.9em;background:var(--bg1);padding:2px 5px;border-radius:4px;border:0.5px solid var(--bd)}
+
+/* overlay */
+.lov{position:fixed;inset:0;background:var(--bg0);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .2s}
+.lov.gone{opacity:0;pointer-events:none}
+.lbox{background:var(--bg2);border:0.5px solid var(--bd-s);border-radius:16px;padding:36px 32px;max-width:440px;width:90%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.lbox h2{font-size:17px;font-weight:500}
+.lbox p{font-size:13px;color:var(--tx2);line-height:1.6}
+.lbox pre{font-size:11px;font-family:var(--mono);background:var(--bg1);border:0.5px solid var(--bd);border-radius:6px;padding:8px 14px;color:var(--tx2);width:100%;text-align:left}
+.btn-p{background:var(--ac);color:#fff;border-color:var(--ac);padding:8px 18px;font-size:13px;border-radius:var(--r);justify-content:center;width:100%}
+.btn-p:hover{background:#2563eb}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite;display:inline-block}
+
+/* header */
+.app-header{display:flex;align-items:center;gap:12px;padding:10px 18px;background:var(--bg2);border-bottom:0.5px solid var(--bd);position:sticky;top:0;z-index:50}
+.app-logo{display:flex;align-items:center;gap:7px;font-weight:500;font-size:14px}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.view-nav{display:flex;gap:4px}
+.view-tab{background:none;border:0.5px solid var(--bd);border-radius:var(--r);padding:5px 12px;font-size:12px;color:var(--tx2)}
+.view-tab.active{background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:500}
+.src-bdg{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.src-bdg.auto{background:var(--ok-bg);color:var(--ok);border:0.5px solid var(--ok-bd)}
+.src-bdg.cache{background:var(--wa-bg);color:var(--wa);border:0.5px solid var(--wa-bd)}
+.src-bdg.err{background:var(--er-bg);color:var(--er);border:0.5px solid var(--er-bd)}
+
+/* views */
+.view{display:none}.view.active{display:block}
+
+/* ── control bar: day tabs + search ──────────── */
+.cbar{display:flex;align-items:center;gap:8px;padding:10px 18px;flex-wrap:wrap;border-bottom:0.5px solid var(--bd);background:var(--bg1)}
+.day-tabs{display:flex;gap:4px;flex-shrink:0}
+.day-tab{padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:5px;background:var(--bg2);border:0.5px solid var(--bd-s);border-radius:var(--r);color:var(--tx2)}
+.day-tab.active{background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:500}
+.day-bdg{font-size:10px;background:var(--bg1);color:var(--tx3);border-radius:4px;padding:1px 5px}
+.day-tab.active .day-bdg{background:var(--ac);color:#fff}
+.srch{position:relative;flex:1;min-width:150px;max-width:240px}
+.srch .ti-search{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:14px;pointer-events:none}
+.srch input{padding-left:28px;height:30px}
+.seat-ct{font-size:11px;color:var(--tx3);white-space:nowrap;display:flex;align-items:center;gap:4px}
+
+/* ── filter bar: workarea + team chips ────────── */
+.fbar{display:flex;flex-direction:column;gap:6px;padding:9px 18px;border-bottom:0.5px solid var(--bd);background:var(--bg0)}
+.frow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-height:28px}
+.frow-lbl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;width:36px;flex-shrink:0;display:flex;align-items:center;gap:3px}
+
+/* workarea chips */
+.wa-chips{display:flex;gap:4px;flex-wrap:wrap}
+.wa-chip{font-size:11px;border:0.5px solid var(--bd-s);border-radius:var(--r);padding:3px 10px;background:var(--bg2);color:var(--tx2);font-weight:500;transition:background .12s,color .12s,border-color .12s}
+.wa-chip:hover{background:var(--bg1)}
+.wa-chip.act-all{background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:600}
+.wa-chip.act-fi {background:var(--t-odm-bg);border-color:var(--t-odm-bo);color:var(--t-odm-tx);font-weight:600}
+.wa-chip.act-co {background:var(--t-csh-bg);border-color:var(--t-csh-bo);color:var(--t-csh-tx);font-weight:600}
+.wa-chip.act-op {background:var(--t-rit-bg);border-color:var(--t-rit-bo);color:var(--t-rit-tx);font-weight:600}
+
+/* team chips */
+.tchips{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.tchip{font-size:11px;border:0.5px solid var(--bd-s);border-radius:var(--r);padding:3px 9px;background:var(--bg2);color:var(--tx2)}
+.tchip.active{font-weight:600}
+.clr-chip{color:var(--tx3);background:none;border-color:transparent}
+
+/* floor plan */
+.fp-outer{padding:12px 18px}
+.fp-wrap{background:var(--bg1);border:0.5px solid var(--bd);border-radius:12px;padding:12px 14px}
+.fl-lbl{text-align:center;font-size:11px;display:flex;align-items:center;justify-content:center;gap:5px;border-radius:5px;padding:3px 10px;width:fit-content;margin:0 auto}
+.ex-lbl{background:var(--er-bg);color:var(--er);border:0.5px solid var(--er-bd);margin-bottom:10px}
+.en-lbl{background:var(--ok-bg);color:var(--ok);border:0.5px solid var(--ok-bd);margin-top:10px}
+.rl-row{display:grid;grid-template-columns:repeat(4,1fr) 22px repeat(4,1fr);gap:5px;margin-bottom:3px}
+.rl{font-size:9px;color:var(--tx3);text-align:center;letter-spacing:.06em;padding-bottom:2px;border-bottom:0.5px solid var(--bd)}
+.sg{display:grid;grid-template-columns:repeat(4,1fr) 22px repeat(4,1fr);gap:5px}
+.rg{margin-bottom:10px;border-top:0.5px solid var(--bd);padding-top:10px}
+.aisle{display:flex;align-items:center;justify-content:center}
+.aisle::after{content:'';display:block;width:0.5px;height:100%;background:var(--bd)}
+.sc{background:var(--bg2);border:0.5px solid var(--bd);border-radius:10px;padding:8px 10px;text-align:left;cursor:pointer;min-height:76px;display:flex;flex-direction:column;justify-content:space-between;transition:opacity .15s;width:100%}
+.sc.dimmed{opacity:.2}
+.sc.new-hire{border-style:dashed}
+.sc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+.sc-id{font-size:9px;font-family:var(--mono);letter-spacing:.04em;opacity:.75;font-weight:500}
+.sc-dv{font-size:11px;opacity:.55}
+.sc-nm{font-size:11px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:3px;line-height:1.3}
+.sc-tg{font-size:9px;border:0.5px solid currentColor;border-radius:3px;padding:1px 4px;display:inline-block;opacity:.8}
+.sc-av{font-size:10px;color:var(--tx3);font-style:italic;margin-top:4px}
+.sc.unavail{background:var(--bg1)}
+.sc-unavail{display:flex;align-items:center;gap:4px;font-style:normal;color:var(--tx3)}
+
+/* bottom legend */
+.bbar{padding:9px 18px 13px;display:flex;flex-direction:column;gap:7px}
+.dv-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--tx3)}
+.dv-leg span{display:flex;align-items:center;gap:4px}
+
+/* detail panel */
+.det-panel{position:fixed;right:-316px;top:0;width:300px;height:100vh;background:var(--bg1);border-left:0.5px solid var(--bd);overflow-y:auto;z-index:200;transition:right .2s;padding:16px;box-shadow:-4px 0 20px rgba(0,0,0,.07)}
+.det-panel.open{right:0}
+.det-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.det-title{font-size:13px;font-weight:500}
+.det-x{background:var(--bg2);border:0.5px solid var(--bd);padding:3px 8px;font-size:13px;border-radius:var(--r)}
+.det-box{background:var(--bg2);border:0.5px solid var(--bd);border-radius:10px;padding:11px;margin-bottom:10px}
+.det-sid{font-size:14px;font-weight:500;margin-bottom:3px}
+.det-dev{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2);font-family:var(--mono)}
+.det-occ{border-radius:10px;padding:11px;margin-bottom:10px;border:0.5px solid}
+.det-avail{font-size:13px;color:var(--tx3);font-style:italic;margin-bottom:10px;padding:10px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--bd)}
+.det-unavail{display:flex;align-items:center;gap:6px;font-style:normal}
+.det-ava-row{display:flex;align-items:center;gap:8px}
+.det-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:0.5px solid}
+.det-pn{font-size:13px;font-weight:500;margin-bottom:2px}
+.det-pt{font-size:10px;border:0.5px solid currentColor;border-radius:3px;padding:1px 5px;display:inline-block}
+.det-pip{font-size:11px;font-family:var(--mono);color:var(--ac);margin-top:3px}
+.det-sec{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;margin:12px 0 6px}
+.sr{display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:7px;background:var(--bg2);border:0.5px solid var(--bd);margin-bottom:4px}
+.sr-d{font-size:11px;width:26px;flex-shrink:0;color:var(--tx3)}
+.sr-n{font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-t{font-size:10px;border:0.5px solid currentColor;border-radius:3px;padding:1px 5px;flex-shrink:0}
+.sr-ip{font-size:10px;font-family:var(--mono);color:var(--ac);flex-shrink:0;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+.sr-no{font-size:11px;color:var(--tx3);font-style:italic}
+
+/* editor */
+.ebar{display:flex;align-items:center;gap:7px;padding:10px 18px;border-bottom:0.5px solid var(--bd);background:var(--bg1);flex-wrap:wrap}
+.sv-ind{font-size:11px;color:var(--ok);margin-left:auto;opacity:0;transition:opacity .3s;display:flex;align-items:center;gap:4px}
+.sv-ind.on{opacity:1}
+.tw{overflow-x:auto;padding:12px 18px}
+table.mt{border-collapse:collapse;width:100%;font-size:12px}
+table.mt thead th{padding:5px 7px;text-align:left;font-size:10px;color:var(--tx3);font-weight:500;text-transform:uppercase;letter-spacing:.06em;border-bottom:0.5px solid var(--bd);background:var(--bg1);position:sticky;top:0;z-index:2;white-space:nowrap}
+table.mt tbody tr{border-left:3px solid transparent}
+table.mt tbody tr:hover{background:var(--bg0)}
+table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(--bd)}
+.ci{height:28px;font-size:12px;border-radius:6px;padding:3px 7px}
+.ci-nm{min-width:106px}
+.ci-sl{height:28px;font-size:12px;border-radius:6px;min-width:130px;padding:3px 7px}
+.del-btn{background:none;border:none;color:var(--tx3);padding:3px 6px;border-radius:5px;font-size:13px}
+.del-btn:hover{background:var(--er-bg);color:var(--er)}
+.ed-section{margin-bottom:6px}
+.ed-sec-hdr{display:flex;align-items:baseline;gap:8px;padding:12px 18px 6px;font-size:13px;font-weight:500}
+.ed-sec-hint{font-size:11px;color:var(--tx3);font-weight:400}
+.seat-lbl{font-size:11px;font-family:var(--mono);white-space:nowrap;font-weight:500}
+.day-cell{display:flex;flex-direction:column;gap:2px;min-width:98px}
+.ci-dn{height:24px;font-size:11px;border-radius:5px;padding:2px 6px}
+.ci-dip{height:22px;font-size:10px;font-family:var(--mono);border-radius:5px;padding:2px 6px;color:var(--tx2)}
+
+/* ═══════════════════════════════════════ */
+/* MOBILE RESPONSIVE — screens under 768px  */
+/* ═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  body {font-size:15px;-webkit-text-size-adjust:100%;overflow:auto}
+  
+  /* Header — compact on mobile */
+  .app-header {padding:10px 12px;gap:8px;flex-wrap:wrap}
+  .app-logo {font-size:13px;gap:5px}
+  .app-logo span {display:none}
+  .hdr-r {gap:4px}
+  .view-tab {padding:8px 12px;font-size:13px;min-height:38px}
+  .src-bdg {display:none !important}
+  
+  /* Control bar — stack vertically */
+  .cbar {padding:10px 12px;gap:8px;flex-direction:column;align-items:stretch}
+  .day-tabs {display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:100%}
+  .day-tab {padding:10px 4px;font-size:12px;justify-content:center;min-height:40px;flex-direction:column;gap:2px}
+  .srch {max-width:100%;width:100%;min-width:0}
+  .srch input {height:40px;font-size:14px;padding-left:34px}
+  .srch .ti-search {font-size:16px;left:10px}
+  .seat-ct {font-size:12px;justify-content:center;text-align:center;padding:4px 0}
+  
+  /* Filter bar */
+  .fbar {padding:8px 12px;gap:8px}
+  .frow {gap:5px}
+  .frow-lbl {width:32px;font-size:9px}
+  .wa-chip,.tchip {padding:6px 10px;font-size:12px;min-height:32px;display:inline-flex;align-items:center}
+  
+  /* Floor plan — allow horizontal scroll if needed */
+  .fp-outer {padding:10px 12px;overflow:auto;-webkit-overflow-scrolling:touch}
+  .fp-wrap {padding:10px;min-width:600px}
+  
+  /* Seat cards more readable */
+  .sc {min-height:70px;padding:7px 8px}
+  .sc-id {font-size:9px}
+  .sc-nm {font-size:11px}
+  .sc-tg {font-size:9px}
+  
+  /* Detail panel — full width on mobile */
+  .det-panel {width:100%;right:-100%;padding:14px}
+  .det-panel.open {right:0}
+  .det-x {padding:8px 14px;font-size:16px;min-height:38px;min-width:38px}
+  
+  /* Bottom legend — smaller */
+  .bbar {padding:8px 12px 12px;gap:5px}
+  .dv-leg {gap:8px;font-size:10px}
+  
+  /* Editor bar — better on mobile */
+  .ebar {padding:8px 12px;gap:5px}
+  .ebar button {padding:8px 12px;font-size:12px;min-height:38px}
+  
+  /* Tables scroll horizontally */
+  .view#view-editor {overflow:auto}
+  .view#view-editor table {min-width:600px}
+}
+
+/* ── Request Seat Modal ──────────────────────────────── */
+.req-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;pointer-events:none;transition:opacity .15s}
+.req-modal.open{opacity:1;pointer-events:all}
+.req-box{background:var(--bg1);border:0.5px solid var(--bd-s);border-radius:14px;padding:22px;max-width:400px;width:92%;display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow-y:auto}
+.req-field{display:flex;flex-direction:column;gap:4px}
+.req-lbl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em}
+.req-out{font-family:var(--mono);font-size:12px;background:var(--bg0);border:0.5px solid var(--bd);border-radius:8px;padding:12px;color:var(--ok);white-space:pre;line-height:1.7;resize:none;width:100%}
+.btn-copy{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-bd);width:100%;justify-content:center;font-size:13px;padding:9px}
+.btn-copy:hover{background:var(--ok-bd)}
+.btn-copy.copied{background:var(--ok);color:#fff}
+
+/* Extra tight for phones under 400px */
+@media (max-width: 400px) {
+  .app-logo {font-size:12px}
+  .day-tab {font-size:11px;padding:8px 2px}
+  .day-bdg {font-size:9px;padding:1px 4px}
+  .fp-outer {padding:8px}
+  .fp-wrap {padding:8px}
+  .wa-chip,.tchip {padding:5px 8px;font-size:11px}
+}
+
+/* ── SEAT PLAN CREATOR ──────────────────────────────── */
+.plan-bar{position:sticky;top:42px;z-index:45;display:flex;align-items:center;gap:6px;padding:8px 18px;background:var(--bg1);border-bottom:0.5px solid var(--bd);flex-wrap:wrap}
+.plan-tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap;min-width:0}
+.plan-tab{padding:5px 10px;font-size:12px;background:var(--bg2);border:0.5px solid var(--bd-s);border-radius:var(--r);color:var(--tx2);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:background .12s,border-color .12s}
+.plan-tab.active{background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:500}
+.plan-tab-del{background:none;border:none;color:var(--tx3);font-size:10px;padding:1px 3px;border-radius:3px;cursor:pointer;opacity:0;transition:opacity .12s;line-height:1;font-family:inherit}
+.plan-tab:hover .plan-tab-del{opacity:1}
+.plan-tab-del:hover{color:var(--er)}
+.planner-stat{font-size:11px;color:var(--tx3);white-space:nowrap;display:flex;align-items:center;gap:4px}
+.planner-body{display:flex;align-items:flex-start}
+.planner-member-panel{position:sticky;top:88px;align-self:flex-start;width:205px;max-height:calc(100vh - 88px);flex-shrink:0;border-right:0.5px solid var(--bd);background:var(--bg1);display:flex;flex-direction:column;overflow:hidden}
+.planner-member-header{padding:8px 12px;font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;border-bottom:0.5px solid var(--bd);flex-shrink:0;display:flex;justify-content:space-between;align-items:center}
+.planner-member-search{padding:7px 8px;border-bottom:0.5px solid var(--bd);flex-shrink:0}
+.planner-member-search input{height:26px;font-size:11px}
+.planner-member-list{flex:1;overflow-y:auto;padding:5px;display:flex;flex-direction:column;gap:3px}
+.planner-drop-hint{flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--tx3);font-style:italic;padding:7px;border-top:0.5px solid var(--bd);background:var(--bg0);transition:background .1s,color .1s,border-color .1s}
+.planner-drop-hint.over{background:var(--er-bg);color:var(--er);border-color:var(--er-bd)}
+.mc{padding:7px 9px;border-radius:7px;border:0.5px solid var(--bd);background:var(--bg2);cursor:grab;font-size:11px;transition:opacity .15s;user-select:none}
+.mc:active{cursor:grabbing}
+.mc.assigned{opacity:0.38}
+.mc.dragging{opacity:0.2}
+.mc-name{font-weight:500}
+.mc-team{font-size:10px;opacity:0.7;margin-top:1px}
+.mc-seat{font-size:9px;font-family:var(--mono);margin-top:3px;opacity:0.8}
+.planner-fp-outer{flex:1;overflow:auto;padding:12px 18px}
+.planner-fp-outer .fp-wrap{min-width:600px}
+.psc{background:var(--bg2);border:0.5px solid var(--bd);border-radius:10px;padding:8px 10px;text-align:left;min-height:76px;display:flex;flex-direction:column;justify-content:space-between;position:relative;width:100%;transition:border-color .1s,background .1s}
+.psc.empty{border-style:dashed}
+.psc.unavail{background:var(--bg1);opacity:0.35;pointer-events:none}
+.psc.occupied{cursor:grab}
+.psc.occupied:active{cursor:grabbing}
+.psc.drop-over{border-color:var(--ac)!important;background:var(--ac-bg)!important;border-style:dashed!important}
+.psc-id{font-size:9px;font-family:var(--mono);letter-spacing:.04em;opacity:.75;font-weight:500}
+.psc-hint{font-size:10px;color:var(--tx3);font-style:italic;margin-top:8px;text-align:center}
+.psc-nm{font-size:11px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:3px;line-height:1.3}
+.psc-tg{font-size:9px;border:0.5px solid currentColor;border-radius:3px;padding:1px 4px;display:inline-block;opacity:.8}
+.psc-x{position:absolute;top:4px;right:5px;background:none;border:none;color:var(--tx3);font-size:10px;padding:2px 4px;border-radius:3px;cursor:pointer;opacity:0;transition:opacity .12s;font-family:inherit}
+.psc:hover .psc-x{opacity:1}
+.psc-x:hover{background:var(--er-bg);color:var(--er)}
+@media(max-width:768px){
+  .planner-member-panel{width:160px}
+  .mc-team{display:none}
+}
+@media(max-width:500px){
+  .planner-body{flex-direction:column}
+  .planner-member-panel{position:relative;top:0;width:100%;max-height:140px;border-right:none;border-bottom:0.5px solid var(--bd)}
+  .planner-member-list{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:4px}
+  .mc{min-width:90px;flex-shrink:0}
+}
+</style>
+</head>
+<body>
+
+<!--
+╔═══════════════════════════════════════════════════════════════════╗
+║                     ✏  EDITABLE DATA SECTION                     ║
+║                                                                   ║
+║  Edit the two JSON blocks below — no other file needs changing.   ║
+║  • data-members  : roster (name, nickname, team, ip)              ║
+║  • data-schedule : weekly seat assignments per seat               ║
+║                                                                   ║
+║  Schedule name format : "Nickname"  or  "WA: Nickname"            ║
+║    WA prefix (FI / CO / OP) disambiguates duplicate nicknames.    ║
+║  Set "unavailable": true to block a seat for that day.            ║
+╚═══════════════════════════════════════════════════════════════════╝
+-->
+
+<script type="application/json" id="data-members">
+{
+  "members": [
+    { "name": "aenon.mari.v.cunanan",     "nickname": "PEGA-Aenon",     "team": "PEGA",             "ip": "10.153.64.14" },
+    { "name": "aldric.p.manzano",         "nickname": "Aldric",         "team": "Risk IT",          "ip": "10.153.66.75" },
+    { "name": "allen.de.rueda",           "nickname": "Allen",          "team": "ODMS",             "ip": "10.153.64.25" },
+    { "name": "alliah.yvonne.bobier",     "nickname": "Alliah",         "team": "Cash Management",  "ip": "10.153.65.137" },
+    { "name": "alpha.g.d.garcia",         "nickname": "Alpha",          "team": "ODMS",             "ip": "10.153.67.77" },
+    { "name": "andrea.louise.toledo",     "nickname": "PEGA-Andrea",    "team": "PEGA",             "ip": "10.153.64.46" },
+    { "name": "angelica.dumaguing",       "nickname": "Angelica",       "team": "Master",           "ip": "10.153.65.68" },
+    { "name": "angelo.d.calupaz",         "nickname": "Gelo",           "team": "OTC Derivative",   "ip": "10.153.64.16" },
+    { "name": "arianne.franco",           "nickname": "Arianne",        "team": "FIQA",             "ip": "10.153.66.96/10.158.23.8" },
+    { "name": "aubrey.nicole.maximo",     "nickname": "Abby",           "team": "FIQA",             "ip": "10.153.67.75" },
+    { "name": "azio.e.bardaje",           "nickname": "Azel",           "team": "ODMS",             "ip": "10.153.65.117" },
+    { "name": "calvin.j.mangalindan",     "nickname": "PEGA-Calvin",    "team": "PEGA",             "ip": "10.153.66.45" },
+    { "name": "calvin.penilla",           "nickname": "Calvin",         "team": "IR Server",        "ip": "10.153.65.97" },
+    { "name": "chauncey.o.plaza",         "nickname": "Chauncey",       "team": "ODMS",             "ip": "10.153.66.59" },
+    { "name": "christian.a.bool",         "nickname": "Christian",      "team": "Risk IT",          "ip": "10.153.66.8" },
+    { "name": "ciara.lei.m.roque",        "nickname": "Ciara",          "team": "Risk IT",          "ip": "10.153.64.1" },
+    { "name": "darwin.cresidio",          "nickname": "Darwin",         "team": "Research",         "ip": "10.153.67.183" },
+    { "name": "darylrozz.ramos",          "nickname": "Daryl",          "team": "Cash Management",  "ip": "10.153.65.3" },
+    { "name": "debie.anne.vasquez",       "nickname": "Debie",          "team": "MarketDB",         "ip": "10.153.67.175" },
+    { "name": "exequiel.g.garcia",        "nickname": "Exequiel",       "team": "ODMS",             "ip": "10.153.66.3" },
+    { "name": "feligre.b.lawa",           "nickname": "Fel",            "team": "Risk EUC",         "ip": "10.153.64.35" },
+    { "name": "franz.d.v.valones",        "nickname": "Franz",          "team": "IR Server",        "ip": "10.153.66.58" },
+    { "name": "gerardo.ganno",            "nickname": "JR",             "team": "FIQA",             "ip": "10.158.23.5/10.158.23.4" },
+    { "name": "hubert.t.uybaan",          "nickname": "Hubert",         "team": "Cash Management",  "ip": "10.153.64.24" },
+    { "name": "Imee",                     "nickname": "Imee",           "team": "PMO",              "ip": "" },
+    { "name": "ivan.m.a.fernandez",       "nickname": "Ivan",           "team": "FIQA",             "ip": "10.153.67.75/10.153.66.50" },
+    { "name": "james.p.d.taneda",         "nickname": "James",          "team": "Master",           "ip": "10.153.67.20" },
+    { "name": "jan.russel.gonzaga",       "nickname": "PEGA-Russel",    "team": "PEGA",             "ip": "10.153.64.44" },
+    { "name": "jay-ar.olivas",            "nickname": "Jay-ar",         "team": "MarketDB",         "ip": "10.153.64.150" },
+    { "name": "jeramy.s.samson",          "nickname": "Jeramy",         "team": "IR Server",        "ip": "10.153.66.12" },
+    { "name": "joanna.g.p.dulaca",        "nickname": "Joanna",         "team": "Master",           "ip": "10.153.64.42" },
+    { "name": "jon.bono.ealdama",         "nickname": "Bono",           "team": "Risk EUC",         "ip": "10.153.66.161" },
+    { "name": "jose.a.e.quiambao",        "nickname": "Anton",          "team": "Master",           "ip": "10.153.64.22/10.153.66.2" },
+    { "name": "jose.amaury.trinidad",     "nickname": "Jam",            "team": "Research",         "ip": "10.153.66.189" },
+    { "name": "jose.s.s.adriano",         "nickname": "PEGA-Jose",      "team": "PEGA",             "ip": "10.153.66.29" },
+    { "name": "julius.ian.b.corpuz",      "nickname": "Ian",            "team": "Risk IT",          "ip": "10.153.64.95/10.153.66.37" },
+    { "name": "k.s.de.oro",               "nickname": "Kyle",           "team": "Accounting",       "ip": "10.153.66.78" },
+    { "name": "karina.m.domingo",         "nickname": "Karen",          "team": "MarketDB",         "ip": "10.153.67.180/10.153.65.32" },
+    { "name": "katsuya.muro",             "nickname": "Muro",           "team": "ODMS",             "ip": "10.153.66.1" },
+    { "name": "lea.r.vacunawa",           "nickname": "Lea",            "team": "FIQA",             "ip": "10.153.67.95" },
+    { "name": "mark.june.d.santiago",     "nickname": "Mark",           "team": "Master",           "ip": "10.153.64.4" },
+    { "name": "marx.jethru.balarbar",     "nickname": "Jet",            "team": "MarketDB",         "ip": "10.153.64.189" },
+    { "name": "michael.richard.ong",      "nickname": "Mike",           "team": "Research",         "ip": "10.153.65.66" },
+    { "name": "mira.santos",              "nickname": "Mira",           "team": "MarketDB",         "ip": "10.153.67.167" },
+    { "name": "neil.b.salvador",          "nickname": "Neil",           "team": "ODMS",             "ip": "10.153.65.34" },
+    { "name": "neil.j.a.belardo",         "nickname": "Jeff",           "team": "MarketDB",         "ip": "10.153.66.69/10.153.64.2" },
+    { "name": "patrick.a.gonzalez",       "nickname": "PatrickG",       "team": "ODMS",             "ip": "10.153.64.117" },
+    { "name": "patrick.james.nedula",     "nickname": "PJ",             "team": "Cash Management",  "ip": "10.153.67.88" },
+    { "name": "patrick.ryan.pascual",     "nickname": "Patrick",        "team": "Risk IT",          "ip": "10.153.64.213" },
+    { "name": "prince.w.e.cunanan",       "nickname": "Prince",         "team": "Cash Management",  "ip": "10.153.64.48" },
+    { "name": "raymond.n.manalaysay",     "nickname": "Raymond",        "team": "Cash Management",  "ip": "10.153.64.23" },
+    { "name": "richter.ace.g.villas",     "nickname": "Ace",            "team": "Risk IT",          "ip": "10.153.66.61" },
+    { "name": "roen.vincent.ramirez",     "nickname": "Roen",           "team": "Accounting",       "ip": "10.153.64.98" },
+    { "name": "shane.g.belamide",         "nickname": "Shane",          "team": "Accounting",       "ip": "10.153.64.55" },
+    { "name": "siegfried.x.a.garcia",     "nickname": "PEGA-Siegfried", "team": "PEGA",             "ip": "" },
+    { "name": "stingray.m.songgay",       "nickname": "Sting",          "team": "OTC Derivative",   "ip": "10.153.64.17" },
+    { "name": "tricia.mae.dela.rosa",     "nickname": "Tricia",         "team": "Risk IT",          "ip": "10.153.66.173" },
+    { "name": "trina.i.d.sobrepena",      "nickname": "Trina",          "team": "IR Server",        "ip": "10.153.64.15" },
+    { "name": "vernon.g.s.mira",          "nickname": "Vernon",         "team": "Cash Management",  "ip": "10.153.66.67" },
+    { "name": "Erika",                    "nickname": "Erika",          "team": "Research",         "ip": "10.153.66.87" }
+  ]
+}
+</script>
+
+<script type="application/json" id="data-schedule">
+{
+  "seats": {
+    "21.66E": {
+      "Monday":    { "name": "",             "ip": "",             "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Calvin",  "ip": "10.153.66.45", "unavailable": false },
+      "Wednesday": { "name": "PEGA-Calvin",  "ip": "10.153.66.45", "unavailable": false },
+      "Thursday":  { "name": "PEGA-Calvin",  "ip": "10.153.66.45", "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",             "unavailable": false }
+    },
+    "21.66F": {
+      "Monday":    { "name": "",              "ip": "",            "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Siegfried","ip": "",            "unavailable": false },
+      "Wednesday": { "name": "PEGA-Siegfried","ip": "",            "unavailable": false },
+      "Thursday":  { "name": "PEGA-Andrea",  "ip": "10.153.64.46", "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",             "unavailable": false }
+    },
+    "21.66G": {
+      "Monday":    { "name": "PEGA-Aenon",   "ip": "10.153.64.14", "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Aenon",   "ip": "10.153.64.14", "unavailable": false },
+      "Wednesday": { "name": "PEGA-Jose",    "ip": "10.153.66.29", "unavailable": false },
+      "Thursday":  { "name": "PEGA-Jose",    "ip": "10.153.66.29", "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",             "unavailable": false }
+    },
+    "21.66H": {
+      "Monday":    { "name": "PEGA-Andrea",  "ip": "10.153.64.46", "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Andrea",  "ip": "10.153.64.46", "unavailable": false },
+      "Wednesday": { "name": "PEGA-Russel",  "ip": "10.153.64.44", "unavailable": false },
+      "Thursday":  { "name": "PEGA-Russel",  "ip": "10.153.64.44", "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",             "unavailable": false }
+    },
+    "21.67A": {
+      "Monday":    { "name": "",             "ip": "",              "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",              "unavailable": false },
+      "Wednesday": { "name": "OP: Tricia",   "ip": "10.153.66.173", "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",              "unavailable": false },
+      "Friday":    { "name": "OP: Tricia",   "ip": "10.153.66.173", "unavailable": false }
+    },
+    "21.67B": {
+      "Monday":    { "name": "OP: Christian","ip": "10.153.66.8",   "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",               "unavailable": false },
+      "Wednesday": { "name": "CO: Jet",      "ip": "",               "unavailable": false },
+      "Thursday":  { "name": "CO: Kyle",     "ip": "",               "unavailable": false },
+      "Friday":    { "name": "CO: Jet",      "ip": "",               "unavailable": false }
+    },
+    "21.67C": {
+      "Monday":    { "name": "OP: Ian",      "ip": "10.153.64.95/10.153.66.37", "unavailable": false },
+      "Tuesday":   { "name": "OP: Ian",      "ip": "10.153.64.95/10.153.66.37", "unavailable": false },
+      "Wednesday": { "name": "CO: Jay-ar",   "ip": "10.153.64.150",             "unavailable": false },
+      "Thursday":  { "name": "CO: Shane",    "ip": "10.153.64.55",              "unavailable": false },
+      "Friday":    { "name": "CO: Jay-ar",   "ip": "10.153.64.150",             "unavailable": false }
+    },
+    "21.67D": {
+      "Monday":    { "name": "CO: Jeff",     "ip": "10.153.66.69/10.153.64.2", "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",                         "unavailable": false },
+      "Wednesday": { "name": "CO: Jeff",     "ip": "10.153.66.69/10.153.64.2", "unavailable": false },
+      "Thursday":  { "name": "CO: Roen",     "ip": "10.153.64.98",             "unavailable": false },
+      "Friday":    { "name": "CO: Jeff",     "ip": "10.153.66.69/10.153.64.2", "unavailable": false }
+    },
+    "21.66D": {
+      "Monday":    { "name": "FI: PatrickG", "ip": "10.153.64.117", "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Jose",    "ip": "10.153.66.29",  "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",              "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",              "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",              "unavailable": false }
+    },
+    "21.66C": {
+      "Monday":    { "name": "FI: Chauncey", "ip": "10.153.66.59",  "unavailable": false },
+      "Tuesday":   { "name": "PEGA-Russel",  "ip": "10.153.64.44",  "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",               "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",               "unavailable": false }
+    },
+    "21.66B": {
+      "Monday":    { "name": "",             "ip": "",               "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",               "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",               "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",               "unavailable": false }
+    },
+    "21.66A": {
+      "Monday":    { "name": "OP: Tricia",   "ip": "10.153.66.173", "unavailable": false },
+      "Tuesday":   { "name": "OP: Ace",      "ip": "10.153.66.61",  "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",               "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",               "unavailable": false }
+    },
+    "21.67G": {
+      "Monday":    { "name": "OP: Ace",      "ip": "10.153.66.61",               "unavailable": false },
+      "Tuesday":   { "name": "CO: Karen",    "ip": "10.153.67.180/10.153.65.32", "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",                           "unavailable": false },
+      "Thursday":  { "name": "CO: Karen",    "ip": "10.153.67.180/10.153.65.32", "unavailable": false },
+      "Friday":    { "name": "CO: Karen",    "ip": "10.153.67.180/10.153.65.32", "unavailable": false }
+    },
+    "21.67F": {
+      "Monday":    { "name": "OP: Aldric",   "ip": "10.153.66.75",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Mira",     "ip": "10.153.67.167", "unavailable": false },
+      "Wednesday": { "name": "CO: Mira",     "ip": "10.153.67.167", "unavailable": false },
+      "Thursday":  { "name": "CO: Jet",      "ip": "",              "unavailable": false },
+      "Friday":    { "name": "CO: Mira",     "ip": "10.153.67.167", "unavailable": false }
+    },
+    "21.67E": {
+      "Monday":    { "name": "OP: Ciara",    "ip": "10.153.64.1",   "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",               "unavailable": false },
+      "Wednesday": { "name": "CO: Debie",    "ip": "10.153.67.175", "unavailable": false },
+      "Thursday":  { "name": "CO: Debie",    "ip": "10.153.67.175", "unavailable": false },
+      "Friday":    { "name": "CO: Debie",    "ip": "10.153.67.175", "unavailable": false }
+    },
+    "NA": {
+      "Monday":    { "name": "",             "ip": "",               "unavailable": true },
+      "Tuesday":   { "name": "",             "ip": "",               "unavailable": true },
+      "Wednesday": { "name": "",             "ip": "",               "unavailable": true },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": true },
+      "Friday":    { "name": "",             "ip": "",               "unavailable": true }
+    },
+    "21.68E": {
+      "Monday":    { "name": "FI: Calvin",   "ip": "10.153.65.97",  "unavailable": false },
+      "Tuesday":   { "name": "FI: Calvin",   "ip": "10.153.65.97",  "unavailable": false },
+      "Wednesday": { "name": "FI: PatrickG", "ip": "10.153.64.117", "unavailable": false },
+      "Thursday":  { "name": "FI: Calvin",   "ip": "10.153.65.97",  "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",              "unavailable": false }
+    },
+    "21.68F": {
+      "Monday":    { "name": "FI: Trina",    "ip": "10.153.64.15",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Alliah",   "ip": "10.153.65.137", "unavailable": false },
+      "Wednesday": { "name": "FI: Chauncey", "ip": "10.153.66.59",  "unavailable": false },
+      "Thursday":  { "name": "FI: Trina",    "ip": "10.153.64.15",  "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",              "unavailable": false }
+    },
+    "21.68G": {
+      "Monday":    { "name": "FI: Franz",    "ip": "10.153.66.58",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Prince",   "ip": "10.153.64.48",  "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",              "unavailable": false },
+      "Thursday":  { "name": "FI: Franz",    "ip": "10.153.66.58",  "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",              "unavailable": false }
+    },
+    "21.68H": {
+      "Monday":    { "name": "FI: Jeramy",   "ip": "10.153.66.12",  "unavailable": false },
+      "Tuesday":   { "name": "FI: Jeramy",   "ip": "10.153.66.12",  "unavailable": false },
+      "Wednesday": { "name": "",             "ip": "",              "unavailable": false },
+      "Thursday":  { "name": "FI: Jeramy",   "ip": "10.153.66.12",  "unavailable": false },
+      "Friday":    { "name": "",             "ip": "",              "unavailable": false }
+    },
+    "21.69A": {
+      "Monday":    { "name": "FI: Muro",     "ip": "10.153.66.1",   "unavailable": false },
+      "Tuesday":   { "name": "FI: Muro",     "ip": "10.153.66.1",   "unavailable": false },
+      "Wednesday": { "name": "FI: Muro",     "ip": "10.153.66.1",   "unavailable": false },
+      "Thursday":  { "name": "OP: Tricia",   "ip": "10.153.66.173", "unavailable": false },
+      "Friday":    { "name": "OP: Fel",      "ip": "10.153.64.35",  "unavailable": false }
+    },
+    "21.69B": {
+      "Monday":    { "name": "FI: Ivan",     "ip": "10.153.67.75/10.153.66.50", "unavailable": false },
+      "Tuesday":   { "name": "FI: Ivan",     "ip": "10.153.67.75/10.153.66.50", "unavailable": false },
+      "Wednesday": { "name": "FI: Ivan",     "ip": "10.153.67.75/10.153.66.50", "unavailable": false },
+      "Thursday":  { "name": "OP: Ian",      "ip": "10.153.64.95/10.153.66.37", "unavailable": false },
+      "Friday":    { "name": "OP: Bono",     "ip": "10.153.66.161",             "unavailable": false }
+    },
+    "21.69C": {
+      "Monday":    { "name": "FI: Lea",      "ip": "10.153.67.95",  "unavailable": false },
+      "Tuesday":   { "name": "FI: Lea",      "ip": "10.153.67.95",  "unavailable": false },
+      "Wednesday": { "name": "FI: Lea",      "ip": "10.153.67.95",  "unavailable": false },
+      "Thursday":  { "name": "OP: Patrick",  "ip": "10.153.64.213", "unavailable": false },
+      "Friday":    { "name": "OP: Patrick",  "ip": "10.153.64.213", "unavailable": false }
+    },
+    "21.68D": {
+      "Monday":    { "name": "FI: Allen",    "ip": "10.153.64.25",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Hubert",   "ip": "10.153.64.24",  "unavailable": false },
+      "Wednesday": { "name": "FI: Allen",    "ip": "10.153.64.25",  "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "CO: Hubert",   "ip": "10.153.64.24",  "unavailable": false }
+    },
+    "21.68C": {
+      "Monday":    { "name": "FI: Alpha",    "ip": "10.153.67.77",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Daryl",    "ip": "10.153.65.3",   "unavailable": false },
+      "Wednesday": { "name": "FI: Alpha",    "ip": "10.153.67.77",  "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "CO: Daryl",    "ip": "10.153.65.3",   "unavailable": false }
+    },
+    "21.68B": {
+      "Monday":    { "name": "FI: Arianne",  "ip": "10.153.66.96/10.158.23.8", "unavailable": false },
+      "Tuesday":   { "name": "CO: PJ",       "ip": "10.153.67.88",             "unavailable": false },
+      "Wednesday": { "name": "FI: Arianne",  "ip": "10.153.66.96/10.158.23.8", "unavailable": false },
+      "Thursday":  { "name": "OP: Ciara",    "ip": "10.153.64.1",              "unavailable": false },
+      "Friday":    { "name": "CO: PJ",       "ip": "10.153.67.88",             "unavailable": false }
+    },
+    "21.68A": {
+      "Monday":    { "name": "FI: Azel",     "ip": "",               "unavailable": false },
+      "Tuesday":   { "name": "FI: Mike",     "ip": "10.153.65.66",   "unavailable": false },
+      "Wednesday": { "name": "FI: Azel",     "ip": "",               "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": false },
+      "Friday":    { "name": "CO: Kyle",     "ip": "10.153.66.78",   "unavailable": false }
+    },
+    "21.69G": {
+      "Monday":    { "name": "Imee",         "ip": "",              "unavailable": false },
+      "Tuesday":   { "name": "CO: James",    "ip": "10.153.67.20",  "unavailable": false },
+      "Wednesday": { "name": "CO: James",    "ip": "10.153.67.20",  "unavailable": false },
+      "Thursday":  { "name": "OP: Aldric",   "ip": "10.153.66.75",  "unavailable": false },
+      "Friday":    { "name": "CO: James",    "ip": "10.153.67.20",  "unavailable": false }
+    },
+    "21.69F": {
+      "Monday":    { "name": "",             "ip": "",               "unavailable": true },
+      "Tuesday":   { "name": "",             "ip": "",               "unavailable": true },
+      "Wednesday": { "name": "",             "ip": "",               "unavailable": true },
+      "Thursday":  { "name": "",             "ip": "",               "unavailable": true },
+      "Friday":    { "name": "",             "ip": "",               "unavailable": true }
+    },
+    "21.69E": {
+      "Monday":    { "name": "Abby",         "ip": "10.153.67.75",  "unavailable": false },
+      "Tuesday":   { "name": "Imee",         "ip": "",              "unavailable": false },
+      "Wednesday": { "name": "Abby",         "ip": "10.153.67.75",  "unavailable": false },
+      "Thursday":  { "name": "OP: Christian","ip": "10.153.66.8",   "unavailable": false },
+      "Friday":    { "name": "CO: Shane",    "ip": "10.153.64.55",  "unavailable": false }
+    },
+    "21.69D": {
+      "Monday":    { "name": "FI: JR",       "ip": "10.158.23.5/10.158.23.4", "unavailable": false },
+      "Tuesday":   { "name": "CO: Roen",     "ip": "10.153.64.98",            "unavailable": false },
+      "Wednesday": { "name": "FI: JR",       "ip": "10.158.23.5/10.158.23.4", "unavailable": false },
+      "Thursday":  { "name": "OP: Ace",      "ip": "10.153.66.61",            "unavailable": false },
+      "Friday":    { "name": "CO: Roen",     "ip": "10.153.64.98",            "unavailable": false }
+    },
+    "21.70D": {
+      "Monday":    { "name": "FI: Sting",    "ip": "10.153.64.17",  "unavailable": false },
+      "Tuesday":   { "name": "FI: Neil",     "ip": "10.153.65.34",  "unavailable": false },
+      "Wednesday": { "name": "FI: Sting",    "ip": "10.153.64.17",  "unavailable": false },
+      "Thursday":  { "name": "FI: Erika",    "ip": "10.153.66.87",  "unavailable": false },
+      "Friday":    { "name": "CO: Alliah",   "ip": "10.153.65.137", "unavailable": false }
+    },
+    "21.70C": {
+      "Monday":    { "name": "Gelo",         "ip": "10.153.64.16",  "unavailable": false },
+      "Tuesday":   { "name": "Gelo",         "ip": "10.153.64.16",  "unavailable": false },
+      "Wednesday": { "name": "Gelo",         "ip": "10.153.64.16",  "unavailable": false },
+      "Thursday":  { "name": "FI: Jam",      "ip": "10.153.66.189", "unavailable": false },
+      "Friday":    { "name": "CO: Prince",   "ip": "10.153.64.48",  "unavailable": false }
+    },
+    "21.70B": {
+      "Monday":    { "name": "FI: Exequiel", "ip": "10.153.66.3",   "unavailable": false },
+      "Tuesday":   { "name": "CO: Vernon",   "ip": "10.153.66.67",  "unavailable": false },
+      "Wednesday": { "name": "FI: Exequiel", "ip": "10.153.66.3",   "unavailable": false },
+      "Thursday":  { "name": "FI: Darwin",   "ip": "10.153.67.183", "unavailable": false },
+      "Friday":    { "name": "CO: Vernon",   "ip": "10.153.66.67",  "unavailable": false }
+    },
+    "21.70A": {
+      "Monday":    { "name": "FI: Neil",     "ip": "10.153.65.34",  "unavailable": false },
+      "Tuesday":   { "name": "CO: Raymond",  "ip": "10.153.64.23",  "unavailable": false },
+      "Wednesday": { "name": "FI: Neil",     "ip": "10.153.65.34",  "unavailable": false },
+      "Thursday":  { "name": "FI: Mike",     "ip": "10.153.65.66",  "unavailable": false },
+      "Friday":    { "name": "CO: Raymond",  "ip": "10.153.64.23",  "unavailable": false }
+    },
+    "21.71A": {
+      "Monday":    { "name": "",             "ip": "",                         "unavailable": false },
+      "Tuesday":   { "name": "",             "ip": "",                         "unavailable": false },
+      "Wednesday": { "name": "CO: Anton",    "ip": "10.153.64.22/10.153.66.2", "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",                         "unavailable": false },
+      "Friday":    { "name": "CO: Anton",    "ip": "10.153.64.22/10.153.66.2", "unavailable": false }
+    },
+    "21.71B": {
+      "Monday":    { "name": "FI: Darwin",   "ip": "10.153.67.183", "unavailable": false },
+      "Tuesday":   { "name": "FI: Darwin",   "ip": "10.153.67.183", "unavailable": false },
+      "Wednesday": { "name": "CO: Mark",     "ip": "10.153.64.4",   "unavailable": false },
+      "Thursday":  { "name": "OP: Fel",      "ip": "10.153.64.35",  "unavailable": false },
+      "Friday":    { "name": "CO: Mark",     "ip": "10.153.64.4",   "unavailable": false }
+    },
+    "21.71C": {
+      "Monday":    { "name": "FI: Mike",     "ip": "10.153.65.66",  "unavailable": false },
+      "Tuesday":   { "name": "OP: Bono",     "ip": "10.153.66.161", "unavailable": false },
+      "Wednesday": { "name": "CO: Joanna",   "ip": "10.153.64.42",  "unavailable": false },
+      "Thursday":  { "name": "OP: Bono",     "ip": "10.153.66.161", "unavailable": false },
+      "Friday":    { "name": "CO: Joanna",   "ip": "10.153.64.42",  "unavailable": false }
+    },
+    "21.71D": {
+      "Monday":    { "name": "FI: Jam",      "ip": "10.153.66.189", "unavailable": false },
+      "Tuesday":   { "name": "FI: Jam",      "ip": "10.153.66.189", "unavailable": false },
+      "Wednesday": { "name": "CO: Angelica", "ip": "10.153.65.68",  "unavailable": false },
+      "Thursday":  { "name": "",             "ip": "",              "unavailable": false },
+      "Friday":    { "name": "CO: Angelica", "ip": "10.153.65.68",  "unavailable": false }
+    }
+  }
+}
+</script>
+
+<div id="lov" class="lov">
+  <div class="lbox" id="lbox">
+    ⟳
+    <p>Loading members.json and schedule.json…</p>
+  </div>
+</div>
+
+<header class="app-header">
+  <div class="app-logo">
+    🏢
+    MHSC AO ATCP — Seat Layout
+    <span style="font-size:11px;color:var(--tx3);font-weight:400">FY25</span>
+  </div>
+  <div class="hdr-r">
+    <span id="src-bdg" class="src-bdg" style="display:none"></span>
+    <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" style="padding:5px 9px;font-size:14px;line-height:1">🌙</button>
+    <nav class="view-nav">
+      <button class="view-tab active" data-view="dashboard" onclick="switchView('dashboard')">⊞ Dashboard</button>
+      <button class="view-tab" data-view="editor" onclick="switchView('editor')">▦ Edit</button>
+      <button class="view-tab" data-view="planner" onclick="switchView('planner')">⊟ Planner</button>
+    </nav>
+  </div>
+</header>
+
+<div id="view-dashboard" class="view active">
+  <!-- Row 1: Day tabs + search + count -->
+  <div class="cbar">
+    <div class="day-tabs" id="day-tabs"></div>
+    <div class="srch">
+      🔍
+      <input id="srch-inp" placeholder="Find a person or team…" oninput="renderFloorPlan()" aria-label="Search">
+    </div>
+    <div class="seat-ct" id="seat-ct">🪑 — / —</div>
+  </div>
+  <!-- Row 2+3: Workarea + Team filters -->
+  <div class="fbar">
+    <div class="frow">
+      <span class="frow-lbl">🏢Area</span>
+      <div id="wa-chips" class="wa-chips"></div>
+    </div>
+    <div class="frow">
+      <span class="frow-lbl">🏷Team</span>
+      <div id="tchips" class="tchips"></div>
+    </div>
+  </div>
+  <div class="fp-outer">
+    <div class="fp-wrap">
+      <div class="fl-lbl ex-lbl">← Emergency exit</div>
+      <div id="fp"></div>
+      <div class="fl-lbl en-lbl">→ Entrance</div>
+    </div>
+  </div>
+  <div class="bbar">
+    <div class="dv-leg">
+      <!-- <span>🖥 Optiplex 3000 (Win11)</span>
+      <span>🖥 Optiplex 3000 (Win10)</span>
+      <span>💻 Wyse 5070 (thin client)</span> -->
+    </div>
+  </div>
+</div>
+
+<div id="view-editor" class="view">
+  <div class="ebar">
+    <button onclick="exportMembersCSV()">⬇ Export Members</button>
+    <button onclick="exportScheduleCSV()">⬇ Export Schedule</button>
+    <button onclick="document.getElementById('imp-members-csv').click()">⬆ Import Members</button>
+    <button onclick="document.getElementById('imp-schedule-csv').click()">⬆ Import Schedule</button>
+    <input type="file" id="imp-members-csv" accept=".csv" style="display:none" onchange="importMembersCSV(this)">
+    <input type="file" id="imp-schedule-csv" accept=".csv" style="display:none" onchange="importScheduleCSV(this)">
+    <!-- <button onclick="exportMembersJSON()" style="color:var(--tx3)">⬇ members.json</button> -->
+    <!-- <button onclick="exportScheduleJSON()" style="color:var(--tx3)">⬇ schedule.json</button> -->
+    <span class="sv-ind" id="sv-ind">✓ Saved</span>
+  </div>
+  <div class="ed-section">
+    <div class="ed-sec-hdr"><span>Weekly seat schedule</span><span class="ed-sec-hint">Name (nickname) + IP per seat — schedule.json</span></div>
+    <div class="tw">
+      <table class="mt">
+        <thead><tr><th>Seat</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
+        <tbody id="stbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="ed-section">
+    <div class="ed-sec-hdr"><span>Roster &amp; teams</span><span class="ed-sec-hint">Nickname must match schedule entries — members.json</span></div>
+    <div class="ebar" style="border:none;padding:6px 18px">
+      <button onclick="addRosterPerson()">➕ Add person</button>
+    </div>
+    <div class="tw">
+      <table class="mt">
+        <thead><tr><th>Nickname</th><th>Team</th><th></th></tr></thead>
+        <tbody id="rtbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="view-planner" class="view">
+  <div class="plan-bar">
+    <div id="plan-tabs" class="plan-tabs"></div>
+    <button onclick="createNewPlan()">+ New</button>
+    <button onclick="duplicatePlan()">⧉ Copy</button>
+    <button onclick="clearPlan()">✕ Clear</button>
+    <span id="planner-stat" class="planner-stat"></span>
+  </div>
+  <div class="planner-body">
+    <div class="planner-member-panel" id="planner-member-panel">
+      <div class="planner-member-header">
+        <span>Members</span>
+        <span id="planner-mbr-ct" style="font-weight:400"></span>
+      </div>
+      <div class="planner-member-search">
+        <input id="planner-msrch" placeholder="Search…" oninput="_renderMemberList()">
+      </div>
+      <div id="planner-member-list" class="planner-member-list"></div>
+      <div id="planner-drop-hint" class="planner-drop-hint">↩ Drop here to unassign</div>
+    </div>
+    <div class="planner-fp-outer">
+      <div class="fp-wrap">
+        <div class="fl-lbl ex-lbl">← Emergency exit</div>
+        <div id="planner-fp"></div>
+        <div class="fl-lbl en-lbl">→ Entrance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside id="det-panel" class="det-panel">
+  <div class="det-hdr">
+    <span class="det-title">Seat detail</span>
+    <button class="det-x" onclick="closeDetail()">✕</button>
+  </div>
+  <div id="det-body"></div>
+</aside>
+
+<div id="req-modal" class="req-modal" onclick="if(event.target===this)closeReqModal()">
+  <div class="req-box">
+    <div class="det-hdr">
+      <span class="det-title">📋 IP Change Request</span>
+      <button class="det-x" onclick="closeReqModal()">✕</button>
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Requestor (EID)</label>
+      <input id="req-requestor" type="text" placeholder="e.g. exequiel.g.garcia" oninput="onRequestorChange()">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Lead (EID) <span style="color:var(--tx3);font-weight:400;text-transform:none;letter-spacing:0">(auto-fills from EID)</span></label>
+      <input id="req-lead" type="text" placeholder="e.g. neil.b.salvador" oninput="updateReqOutput()">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">IP Address <span style="color:var(--tx3);font-weight:400;text-transform:none;letter-spacing:0">(auto-fills from EID)</span></label>
+      <input id="req-ip" type="text" placeholder="e.g. 10.153.66.3" oninput="updateReqOutput()">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Seat No.</label>
+      <input id="req-seat" type="text" readonly tabindex="-1" style="opacity:.55;cursor:default">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Date (when to change)</label>
+      <input id="req-date" type="date" oninput="updateReqOutput()">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Output — paste to Teams</label>
+      <textarea id="req-out" class="req-out" readonly rows="6"></textarea>
+    </div>
+    <button class="btn-copy" id="req-copy-btn" onclick="copyReqText()">📋 Copy to clipboard</button>
+  </div>
+</div>
+
+<datalist id="roster-dl"></datalist>
+
+<script>
+// ═══════════════════════════════════════
+// FLOOR LAYOUT
+// ═══════════════════════════════════════
+const LAYOUT=[
+  {left:['21.66E','21.66F','21.66G','21.66H'], right:['21.67A','21.67B','21.67C','21.67D']},
+  {left:['21.66D','21.66C','21.66B','21.66A'], right:['21.67G','21.67F','21.67E','NA2']},
+  {left:['21.68E','21.68F','21.68G','21.68H'], right:['21.69A','21.69B','21.69C','NA']},
+  {left:['21.68D','21.68C','21.68B','21.68A'], right:['21.69G','21.69F','21.69E','21.69D']},
+  {left:['21.70D','21.70C','21.70B','21.70A'], right:['21.71A','21.71B','21.71C','21.71D']},
+];
+const DEVICES={
+  '21.66E':'Optiplex 3000 (Win11)','21.66F':'Optiplex 3000 (Win11)',
+  '21.66G':'Optiplex 3000 (Win11)','21.66H':'Optiplex 3000 (Win11)',
+  '21.67A':'Optiplex 3000 (Win11)','21.67B':'Optiplex 3000 (Win11)',
+  '21.67C':'Optiplex 3000 (Win11)','21.67D':'Optiplex 3000 (Win11)',
+  '21.66D':'Optiplex 3000 (Win11)','21.66C':'Optiplex 3000 (Win11)',
+  '21.66B':'Optiplex 3000 (Win11)','21.66A':'Optiplex 3000 (Win11)',
+  '21.67G':'Optiplex 3000 (Win11)','21.67F':'Optiplex 3000 (Win11)',
+  '21.67E':'Optiplex 3000 (Win11)',
+  '21.68E':'Wyse 5070','21.68F':'Optiplex 3000 (Win10)',
+  '21.68G':'Wyse 5070','21.68H':'Optiplex 3000 (Win10)',
+  '21.68D':'Wyse 5070','21.68C':'Wyse 5070','21.68B':'Wyse 5070','21.68A':'Wyse 5070',
+  '21.69A':'Wyse 5070','21.69B':'Wyse 5070','21.69C':'Wyse 5070',
+  '21.69G':'Optiplex 3000 (Win11)',
+  '21.69F':'Wyse 5070','21.69E':'Wyse 5070','21.69D':'Wyse 5070',
+  '21.70D':'Optiplex 3000 (Win10)','21.70C':'Optiplex 3000 (Win10)',
+  '21.70B':'Wyse 5070','21.70A':'Optiplex 3000 (Win10)',
+  '21.71A':'Wyse 5070','21.71B':'Wyse 5070','21.71C':'Wyse 5070','21.71D':'Wyse 5070',
+};
+
+// ── Org hierarchy (from hierarchy.json) ───────────────
+const HIERARCHY={
+  'FI':        {label:'FI',  teams:['ODMS','OTC Derivative','IR Server','Research','FIQA']},
+  'Corporate': {label:'CO',  teams:['Cash Management','Accounting','Master','MarketDB']},
+  'Operations':{label:'OP',  teams:['Risk IT','Risk EUC']},
+};
+
+// ── Team leads (auto-populated from requestor's team) ─
+const TEAM_LEADS={
+  'ODMS':           'neil.b.salvador',
+  'FIQA':           'ivan.m.a.fernandez',
+  'Cash Management':'raymond.n.manalaysay',
+  'Master':         'james.p.d.taneda',
+  'Research':       'darwin.cresidio',
+  'MarketDB':       'marx.jethru.balarbar',
+  'Accounting':     'roen.vincent.ramirez',
+  'OTC Derivative': 'angelo.d.calupaz',
+  'IR Server':      'calvin.penilla',
+  'Risk IT':        'julius.ian.b.corpuz',
+  'Risk EUC':       'jon.bono.ealdama',
+};
+
+// ── Team → CSS token prefix ────────────────────────────
+// Keys must exactly match the "team" field in members.json
+const TV={
+  'PMO':            'pmo',
+  'MarketDB':       'mdb',
+  'OTC Derivative': 'otc',
+  'IR Server':      'irs',
+  'PEGA':           'peg',
+  'Master':         'mas',
+  'Cash Management':'csh',
+  'Accounting':     'acc',
+  'ODMS':           'odm',
+  'FIQA':           'qa',
+  'Research':       'res',
+  'Risk IT':        'rit',
+  'Risk EUC':       'rec',
+};
+
+const TEAMS=[
+  'PMO','PEGA',
+  'ODMS','OTC Derivative','IR Server','Research','FIQA',
+  'Cash Management','Accounting','Master','MarketDB',
+  'Risk IT','Risk EUC',
+];
+const DAYS=['Mon','Tue','Wed','Thu','Fri'];
+const DAY_FULL={Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday'};
+const ALL_SEATS=[
+  '21.66E','21.66F','21.66G','21.66H','21.67A','21.67B','21.67C','21.67D',
+  '21.66D','21.66C','21.66B','21.66A','21.67G','21.67F','21.67E','NA2',
+  '21.68E','21.68F','21.68G','21.68H','21.69A','21.69B','21.69C','NA',
+  '21.68D','21.68C','21.68B','21.68A','21.69G','21.69F','21.69E','21.69D',
+  '21.70D','21.70C','21.70B','21.70A','21.71A','21.71B','21.71C','21.71D',
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let roster=[],scheduleData={},curDay='Mon',selSeat=null,teamFilter=null,workareaFilter=null;
+
+function isNA(sid){return sid==='NA'||sid==='NA2';}
+
+// ═══════════════════════════════════════
+// NAME RESOLUTION
+// schedule.json entries use nicknames, optionally prefixed with a
+// workarea label:  "FI: Calvin"  /  "CO: Jeff"  /  "OP: Ian"  /  "PEGA-Aenon"  /  "Gelo"
+// ═══════════════════════════════════════
+function parseName(raw){
+  if(!raw)return{label:null,nick:''};
+  const m=raw.match(/^([A-Z]+)\s*:\s*(.+)$/);
+  return m?{label:m[1],nick:m[2].trim()}:{label:null,nick:raw.trim()};
+}
+function resolveOccupant(raw){
+  if(!raw)return null;
+  const{label,nick}=parseName(raw);
+  const nl=nick.toLowerCase();
+  let cands=roster.filter(r=>(r.nickname||r.name||'').toLowerCase()===nl);
+  if(cands.length===1)return cands[0];
+  // Two people share a nickname (e.g. two "Patrick"s) — use workarea prefix to pick the right one
+  if(label&&cands.length>1){
+    const waKey=Object.keys(HIERARCHY).find(k=>HIERARCHY[k].label===label);
+    if(waKey){
+      const f=cands.filter(m=>HIERARCHY[waKey].teams.includes(m.team));
+      if(f.length)return f[0];
+    }
+  }
+  return cands[0]||null;
+}
+
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+function normalizeRoster(raw){
+  const arr=Array.isArray(raw)?raw:(raw?.members||[]);
+  return arr.map(m=>({
+    name:    m.name||'',
+    nickname:m.nickname||m.name||'',
+    team:    m.team||'',
+    ip:      m.ip||'',
+  }));
+}
+function normalizeSchedule(raw){
+  const seatsObj=raw?.seats||raw||{};
+  const out={};
+  ALL_SEATS.forEach(seatId=>{
+    const s=seatsObj[seatId]||{};
+    out[seatId]={};
+    Object.values(DAY_FULL).forEach(full=>{
+      const cell=s[full]||{};
+      out[seatId][full]={name:cell.name||'',ip:cell.ip||'',unavailable:!!cell.unavailable};
+    });
+  });
+  return out;
+}
+function loadData(membersData,scheduleDataRaw){
+  roster=normalizeRoster(membersData);
+  scheduleData=normalizeSchedule(scheduleDataRaw);
+}
+
+function indSave(){
+  const el=document.getElementById('sv-ind');
+  if(el){el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2000);}
+}
+
+// ═══════════════════════════════════════
+// OVERLAY
+// ═══════════════════════════════════════
+function showOverlay(state){
+  const ov=document.getElementById('lov');const lb=document.getElementById('lbox');
+  if(state==='gone'){ov.classList.add('gone');setTimeout(()=>{ov.style.display='none';},250);return;}
+  ov.style.display='flex';ov.classList.remove('gone');
+  if(state==='loading'){
+    lb.innerHTML=`⟳
+      <p>Loading members.json and schedule.json…</p>`;
+  }else if(state==='error'){
+    lb.innerHTML=`⚠
+      <h2>Data load error</h2>
+      <p>The dashboard includes all data and should load automatically. If you see this, refresh the page.</p>`;
+  }
+}
+function setBadge(src){
+  const b=document.getElementById('src-bdg');if(!b)return;
+  if(src==='embed'){b.className='src-bdg auto';b.innerHTML='✓ Standalone';b.style.display='inline-flex';}
+  else if(src==='cache'){b.className='src-bdg cache';b.innerHTML='💾 From cache';b.style.display='inline-flex';}
+  else{b.className='src-bdg err';b.innerHTML='⚠ No data';b.style.display='inline-flex';}
+}
+
+// Data is read from <script type="application/json"> blocks at the top of <body>
+
+
+// ═══════════════════════════════════════
+// THEME TOGGLE
+// ═══════════════════════════════════════
+function toggleTheme(){
+  const html=document.documentElement;
+  const isLight=html.getAttribute('data-theme')==='light';
+  html.setAttribute('data-theme',isLight?'dark':'light');
+  document.getElementById('theme-toggle').textContent=isLight?'🌙':'☀️';
+  localStorage.setItem('mhsc_theme',isLight?'dark':'light');
+}
+(function(){
+  const saved=localStorage.getItem('mhsc_theme');
+  if(saved==='light'){
+    document.documentElement.setAttribute('data-theme','light');
+    document.addEventListener('DOMContentLoaded',function(){
+      const btn=document.getElementById('theme-toggle');
+      if(btn)btn.textContent='☀️';
+    });
+  }
+})();
+
+// ═══════════════════════════════════════
+// INIT — load from embedded data
+// ═══════════════════════════════════════
+function init(){
+  try {
+    showOverlay('loading');
+    const membersRaw  = JSON.parse(document.getElementById('data-members').textContent);
+    const scheduleRaw = JSON.parse(document.getElementById('data-schedule').textContent);
+    loadData(membersRaw, scheduleRaw);
+    loadPlans();
+    renderAll();
+    showOverlay('gone');
+    setBadge('embed');
+  } catch(e) {
+    console.error('Init error:', e);
+    var lb = document.getElementById('lbox');
+    if (lb) {
+      lb.innerHTML = '<div style="padding:20px;text-align:center"><div style="font-size:38px;color:#f87171">⚠</div><h2 style="margin:10px 0">Cannot open here</h2><p style="color:#a09d98;font-size:13px;margin-bottom:10px">This page is being blocked by the viewer. Please:</p><ol style="text-align:left;color:#a09d98;font-size:13px;line-height:1.8;padding-left:20px"><li>Tap the <b>⋯</b> menu at top-right</li><li>Choose <b>Download</b> or <b>Save</b></li><li>Open the file from <b>Files</b> app or <b>Downloads</b> folder</li></ol><p style="color:#706d68;font-size:11px;margin-top:15px">Error: ' + (e.message || 'Unknown') + '</p></div>';
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function tss(team){
+  const v=TV[team];
+  return v?`background:var(--t-${v}-bg);color:var(--t-${v}-tx);border-color:var(--t-${v}-bo)`:'';
+}
+function applyT(el,team){
+  const v=TV[team];
+  if(!v){el.style.background='';el.style.color='';el.style.borderColor='';return;}
+  el.style.background=`var(--t-${v}-bg)`;
+  el.style.color=`var(--t-${v}-tx)`;
+  el.style.borderColor=`var(--t-${v}-bo)`;
+}
+function devIcon(dev){
+  if(!dev)return'';
+  if(dev.includes('Win11'))return'ti-device-desktop';
+  if(dev.includes('Win10'))return'ti-device-desktop-analytics';
+  return'ti-device-laptop';
+}
+
+// ═══════════════════════════════════════
+// BUILD MAP — resolves nicknames to teams
+// ═══════════════════════════════════════
+function buildMap(day){
+  const full=DAY_FULL[day];
+  const map={};
+  ALL_SEATS.forEach(sid=>{
+    // NA/NA2 are always structural placeholders
+    if(isNA(sid)){map[sid]={status:'unavailable'};return;}
+    const cell=scheduleData[sid]?.[full]||{name:'',ip:'',unavailable:false};
+    if(cell.unavailable){
+      map[sid]={status:'unavailable'};
+    }else if(cell.name){
+      const member=resolveOccupant(cell.name);
+      const{nick}=parseName(cell.name);
+      map[sid]={
+        status: 'occupied',
+        name:   member?member.nickname:nick,
+        ip:     cell.ip||'',
+        team:   member?member.team:'',
+        isNew:  cell.name.startsWith('New'),
+      };
+    }else{
+      map[sid]={status:'available'};
+    }
+  });
+  return map;
+}
+
+// ═══════════════════════════════════════
+// VIEW SWITCH
+// ═══════════════════════════════════════
+function switchView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));
+  if(v==='editor')renderEditor();
+  if(v==='dashboard')renderDashboard();
+  if(v==='planner')renderPlanner();
+}
+function renderAll(){renderDashboard();}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function renderDashboard(){
+  renderDayTabs();
+  renderWorkareaFilter();
+  renderTeamChips();
+  renderFloorPlan();
+  renderDetail();
+}
+
+function renderDayTabs(){
+  const c=document.getElementById('day-tabs');if(!c)return;c.innerHTML='';
+  DAYS.forEach(d=>{
+    const map=buildMap(d);
+    const n=Object.values(map).filter(o=>o.status==='occupied').length;
+    const btn=document.createElement('button');
+    btn.className='day-tab'+(d===curDay?' active':'');
+    btn.innerHTML=`${d} <span class="day-bdg">${n}</span>`;
+    btn.onclick=()=>{curDay=d;selSeat=null;renderDashboard();};
+    c.appendChild(btn);
+  });
+}
+
+function renderWorkareaFilter(){
+  const c=document.getElementById('wa-chips');if(!c)return;
+  c.innerHTML='';
+  // All
+  const allBtn=document.createElement('button');
+  allBtn.className='wa-chip'+(workareaFilter===null?' act-all':'');
+  allBtn.textContent='All';
+  allBtn.onclick=()=>{workareaFilter=null;teamFilter=null;renderWorkareaFilter();renderTeamChips();renderFloorPlan();};
+  c.appendChild(allBtn);
+  // Per workarea
+  Object.entries(HIERARCHY).forEach(([key,wa])=>{
+    const btn=document.createElement('button');
+    const active=workareaFilter===key;
+    btn.className='wa-chip'+(active?' act-'+wa.label.toLowerCase():'');
+    btn.title=`${key}: ${wa.teams.join(', ')}`;
+    btn.textContent=key;
+    btn.onclick=()=>{
+      workareaFilter=active?null:key;
+      teamFilter=null;
+      renderWorkareaFilter();renderTeamChips();renderFloorPlan();
+    };
+    c.appendChild(btn);
+  });
+}
+
+function renderTeamChips(){
+  const c=document.getElementById('tchips');if(!c)return;
+  const map=buildMap(curDay);
+  // Collect teams present today
+  let teams=[...new Set(
+    Object.values(map).filter(o=>o.status==='occupied'&&o.team).map(o=>o.team)
+  )].sort();
+  // Filter to current workarea if set
+  if(workareaFilter){
+    const waTeams=HIERARCHY[workareaFilter]?.teams||[];
+    teams=teams.filter(t=>waTeams.includes(t));
+  }
+  c.innerHTML='';
+  teams.forEach(team=>{
+    const v=TV[team];if(!v)return;
+    const btn=document.createElement('button');
+    btn.className='tchip'+(teamFilter===team?' active':'');
+    btn.style.cssText=tss(team);
+    if(teamFilter===team)btn.style.fontWeight='600';
+    btn.textContent=team;
+    btn.onclick=()=>{teamFilter=teamFilter===team?null:team;renderFloorPlan();renderTeamChips();};
+    c.appendChild(btn);
+  });
+  if(teamFilter){
+    const clr=document.createElement('button');
+    clr.className='tchip clr-chip';
+    clr.innerHTML='✕ Clear';
+    clr.onclick=()=>{teamFilter=null;renderFloorPlan();renderTeamChips();};
+    c.appendChild(clr);
+  }
+}
+
+function renderFloorPlan(){
+  const fp=document.getElementById('fp');if(!fp)return;
+  const map=buildMap(curDay);
+  const q=(document.getElementById('srch-inp')?.value||'').toLowerCase().trim();
+  fp.innerHTML='';
+
+  LAYOUT.forEach((row,ri)=>{
+    if(ri>0){const d=document.createElement('div');d.className='rg';fp.appendChild(d);}
+    const lr=document.createElement('div');lr.className='rl-row';
+    lr.innerHTML=`<div class="rl" style="grid-column:1/5">${row.left[0].slice(0,5)}</div><div></div><div class="rl" style="grid-column:6/10">${row.right[0].slice(0,5)}</div>`;
+    fp.appendChild(lr);
+    const grid=document.createElement('div');grid.className='sg';
+
+    [...row.left,'AISLE',...row.right].forEach(sid=>{
+      if(sid==='AISLE'){const a=document.createElement('div');a.className='aisle';grid.appendChild(a);return;}
+      const occ=map[sid];const dev=DEVICES[sid];
+      const isOcc=occ.status==='occupied';
+
+      // Dim logic (workarea → team → search, in priority order)
+      let dim=false;
+      if(occ.status==='unavailable'){
+        dim=!!(workareaFilter||teamFilter||q);
+      }else if(teamFilter){
+        dim=!isOcc||occ.team!==teamFilter;
+      }else if(workareaFilter){
+        const waTeams=HIERARCHY[workareaFilter]?.teams||[];
+        dim=!isOcc||!waTeams.includes(occ.team);
+      }else if(q){
+        dim=!isOcc||(
+          !occ.name.toLowerCase().includes(q)&&
+          !(occ.team||'').toLowerCase().includes(q)
+        );
+      }
+
+      const card=document.createElement('button');
+      card.className='sc'+(dim?' dimmed':'')+(isOcc&&occ.isNew?' new-hire':'')+(occ.status==='unavailable'?' unavail':'');
+      if(isOcc)applyT(card,occ.team);
+      if(selSeat===sid){
+        const v=isOcc?TV[occ.team]:null;
+        card.style.boxShadow=v?`0 0 0 2.5px var(--t-${v}-bo)`:'0 0 0 2.5px var(--ac)';
+      }
+      const di=devIcon(dev);
+      let body;
+      if(isOcc)body=`<div class="sc-nm">${esc(occ.name)}</div><span class="sc-tg">${esc(occ.team)}</span>`;
+      else if(occ.status==='unavailable')body=`<div class="sc-av sc-unavail">⛔ Not available</div>`;
+      else body=`<div class="sc-av">Available</div>`;
+      card.innerHTML=`<div class="sc-h"><span class="sc-id">${esc(sid)}</span>${di?`<i class="ti ${di} sc-dv" title="${esc(dev||'')}"></i>`:''}</div>${body}`;
+      card.onclick=()=>{selSeat=selSeat===sid?null:sid;renderFloorPlan();renderDetail();};
+      grid.appendChild(card);
+    });
+    fp.appendChild(grid);
+  });
+
+  const sc=document.getElementById('seat-ct');
+  const occCount=Object.values(map).filter(o=>o.status==='occupied').length;
+  const totalSeats=ALL_SEATS.filter(s=>!isNA(s)).length;
+  if(sc)sc.innerHTML=`🪑 ${occCount} / ${totalSeats}`;
+}
+
+// ═══════════════════════════════════════
+// DETAIL PANEL
+// ═══════════════════════════════════════
+function renderDetail(){
+  const panel=document.getElementById('det-panel');const body=document.getElementById('det-body');
+  if(!panel||!body)return;
+  if(!selSeat){panel.classList.remove('open');return;}
+  panel.classList.add('open');
+  const occ=buildMap(curDay)[selSeat];const dev=DEVICES[selSeat];
+  const isOcc=occ.status==='occupied';
+  const sched={};DAYS.forEach(d=>{sched[d]=buildMap(d)[selSeat];});
+
+  let h=`<div class="det-box">
+    <div class="det-sid">Seat ${esc(selSeat)}</div>
+    ${dev?`<div class="det-dev"><i class="ti ${devIcon(dev)}"></i><span>${esc(dev)}</span></div>`:'<div class="det-dev" style="color:var(--tx3);font-style:italic">No device mapped</div>'}
+  </div>`;
+  if(isOcc){
+    const ini=occ.name.split(/[\s\-_]+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    h+=`<div class="det-occ" style="${tss(occ.team)}">
+      <div class="det-ava-row">
+        <div class="det-av" style="${tss(occ.team)}">${esc(ini)}</div>
+        <div><div class="det-pn">${esc(occ.name)}</div>
+        <span class="det-pt">${esc(occ.team)}</span>
+        ${occ.ip?`<div class="det-pip">${esc(occ.ip)}</div>`:''}</div>
+      </div></div>`;
+  }else if(occ.status==='unavailable'){
+    h+=`<div class="det-avail det-unavail">⛔ Not available today</div>`;
+  }else{
+    h+=`<div class="det-avail">Available today</div>`;
+  }
+  h+=`<div class="det-sec">Hot-desk schedule</div>`;
+  DAYS.forEach(d=>{
+    const so=sched[d];const soOcc=so.status==='occupied';const sv=soOcc?TV[so.team]:null;const it=d===curDay;
+    const rs=it&&sv?tss(so.team):it?'background:var(--ac-bg);border-color:var(--ac-bd)':'';
+    let rowBody;
+    if(soOcc)rowBody=`<span class="sr-n">${esc(so.name)}</span><span class="sr-t" style="${sv?`color:var(--t-${sv}-tx);border-color:var(--t-${sv}-bo)`:''}">${esc(so.team)}</span>${so.ip?`<span class="sr-ip">${esc(so.ip)}</span>`:''}`;
+    else if(so.status==='unavailable')rowBody=`<span class="sr-no">⛔ Not available</span>`;
+    else rowBody=`<span class="sr-no">Available</span>`;
+    h+=`<div class="sr" style="${rs}">
+      <span class="sr-d" style="${it&&sv?`color:var(--t-${sv}-tx);font-weight:600`:it?'color:var(--ac);font-weight:600':''}">${d}</span>
+      ${rowBody}
+    </div>`;
+  });
+  if(!isNA(selSeat)){
+    h+=`<button class="btn-p" style="width:100%;margin-top:12px;justify-content:center" onclick="openReqModal('${esc(selSeat)}')">📋 Request this seat</button>`;
+  }
+  body.innerHTML=h;
+}
+function closeDetail(){selSeat=null;renderFloorPlan();renderDetail();}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('req-modal')?.classList.contains('open')){closeReqModal();return;}
+    if(selSeat)closeDetail();
+  }
+});
+
+// ═══════════════════════════════════════
+// REQUEST SEAT MODAL
+// ═══════════════════════════════════════
+function openReqModal(seatId){
+  document.getElementById('req-seat').value=seatId;
+  document.getElementById('req-ip').value='';
+  document.getElementById('req-requestor').value='';
+  document.getElementById('req-lead').value='';
+  const t=new Date();
+  document.getElementById('req-date').value=
+    `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+  updateReqOutput();
+  document.getElementById('req-modal').classList.add('open');
+}
+function closeReqModal(){document.getElementById('req-modal').classList.remove('open');}
+function onRequestorChange(){
+  const val=document.getElementById('req-requestor').value.trim().toLowerCase();
+  const member=roster.find(r=>(r.name||'').toLowerCase()===val);
+  if(member){
+    if(member.ip) document.getElementById('req-ip').value=member.ip.split('/')[0].trim();
+    const lead=TEAM_LEADS[member.team];
+    if(lead) document.getElementById('req-lead').value=lead;
+  }
+  updateReqOutput();
+}
+function updateReqOutput(){
+  const lead=document.getElementById('req-lead').value.trim()||'—';
+  const requestor=document.getElementById('req-requestor').value.trim()||'—';
+  const ip=document.getElementById('req-ip').value.trim()||'—';
+  const seat=document.getElementById('req-seat').value.trim()||'—';
+  const rawDate=document.getElementById('req-date').value;
+  const date=rawDate?rawDate.replace(/-/g,'/'):'—';
+  document.getElementById('req-out').value=
+`#IPChangeRequest
+Lead (EID): ${lead}
+Requestor (EID): ${requestor}
+IP Address: ${ip}
+Seat no: ${seat}
+Date (when to change): ${date}`;
+}
+function copyReqText(){
+  const text=document.getElementById('req-out').value;
+  const btn=document.getElementById('req-copy-btn');
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.innerHTML='📋 Copy to clipboard';btn.classList.remove('copied');},2200);
+  }).catch(()=>{
+    const ta=document.getElementById('req-out');ta.select();
+    try{document.execCommand('copy');}catch(e){}
+  });
+}
+
+// ═══════════════════════════════════════
+// EDITOR
+// ═══════════════════════════════════════
+function renderEditor(){renderScheduleTable();renderRosterTable();}
+function renderScheduleTable(){
+  const tbody=document.getElementById('stbody');if(!tbody)return;
+  tbody.innerHTML='';
+  ALL_SEATS.forEach(seatId=>{
+    const tr=document.createElement('tr');
+    const tdSeat=document.createElement('td');
+    tdSeat.innerHTML=`<span class="seat-lbl">${esc(seatId)}</span>`;
+    tr.appendChild(tdSeat);
+    DAYS.forEach(d=>{
+      const full=DAY_FULL[d];
+      const cellData=scheduleData[seatId][full];
+      const td=document.createElement('td');
+      const wrap=document.createElement('div');wrap.className='day-cell';
+      const ni=document.createElement('input');
+      ni.type='text';ni.className='ci ci-dn';ni.placeholder='Nickname (or WA: Nick)';
+      ni.value=cellData.unavailable?'Not Available':cellData.name;
+      ni.setAttribute('list','roster-dl');
+      const ii=document.createElement('input');
+      ii.type='text';ii.className='ci ci-dip';ii.placeholder='IP address';
+      ii.value=cellData.ip;ii.disabled=cellData.unavailable;
+      ni.onchange=()=>{
+        const v=ni.value.trim();
+        if(v.toLowerCase()==='not available'){
+          scheduleData[seatId][full]={name:'',ip:'',unavailable:true};
+        }else{
+          scheduleData[seatId][full]={name:v,ip:scheduleData[seatId][full].ip||'',unavailable:false};
+        }
+        indSave();renderScheduleTable();renderDashboard();
+      };
+      ii.onchange=()=>{scheduleData[seatId][full].ip=ii.value.trim();indSave();};
+      wrap.appendChild(ni);wrap.appendChild(ii);
+      td.appendChild(wrap);tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+function renderRosterTable(){
+  const tbody=document.getElementById('rtbody');if(!tbody)return;
+  tbody.innerHTML='';
+  roster.forEach((p,i)=>{
+    const tr=document.createElement('tr');
+    const v=TV[p.team];if(v)tr.style.borderLeftColor=`var(--t-${v}-bo)`;
+    const tdN=document.createElement('td');
+    const ni=document.createElement('input');
+    ni.type='text';ni.className='ci ci-nm';ni.value=p.nickname||p.name;ni.placeholder='nickname';
+    ni.onchange=()=>{p.nickname=ni.value.trim();indSave();renderRosterTable();renderDashboard();};
+    tdN.appendChild(ni);tr.appendChild(tdN);
+    const tdT=document.createElement('td');
+    const sl=document.createElement('select');sl.className='ci-sl';
+    sl.innerHTML=`<option value="">—</option>`+TEAMS.map(t=>`<option value="${esc(t)}"${p.team===t?' selected':''}>${esc(t)}</option>`).join('');
+    sl.onchange=()=>{p.team=sl.value;indSave();renderRosterTable();renderDashboard();};
+    tdT.appendChild(sl);tr.appendChild(tdT);
+    const tdD=document.createElement('td');
+    const db=document.createElement('button');db.className='del-btn';db.innerHTML='🗑';
+    db.onclick=()=>{
+      if(confirm(`Remove ${p.nickname||p.name||'this person'} from the roster?`)){
+        roster.splice(i,1);renderRosterTable();renderDashboard();
+      }
+    };
+    tdD.appendChild(db);tr.appendChild(tdD);
+    tbody.appendChild(tr);
+  });
+  const dl2=document.getElementById('roster-dl');
+  if(dl2)dl2.innerHTML=roster.map(p=>`<option value="${esc(p.nickname||p.name)}">`).join('');
+}
+function addRosterPerson(){
+  roster.push({name:'',nickname:'',team:''});renderRosterTable();
+  const last=document.querySelector('#rtbody tr:last-child');if(last)last.scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════
+function exportMembersJSON(){
+  const data={
+    _note:"Roster — nickname must match schedule.json entries exactly (case-insensitive). Members without a workarea prefix in schedule.json are matched by nickname directly.",
+    members:roster.map(p=>({name:p.name,nickname:p.nickname||p.name,team:p.team}))
+  };
+  dl(JSON.stringify(data,null,2),'members.json','application/json');
+}
+function exportScheduleJSON(){
+  dl(JSON.stringify({_note:"Weekly seat assignments.",seats:scheduleData},null,2),'schedule.json','application/json');
+}
+function exportCSV(){
+  const h='Seat,Day,Name,IP Address,Team,Workarea,Status\r\n';
+  const rows=[];
+  ALL_SEATS.forEach(seatId=>{
+    DAYS.forEach(d=>{
+      const cell=scheduleData[seatId][DAY_FULL[d]];
+      let status='available',name='',ip='',team='',wa='';
+      if(cell.unavailable){status='unavailable';}
+      else if(cell.name){
+        status='occupied';
+        const member=resolveOccupant(cell.name);
+        const{nick}=parseName(cell.name);
+        name=member?member.nickname:nick;
+        ip=cell.ip;
+        team=member?member.team:'';
+        wa=Object.entries(HIERARCHY).find(([,v])=>v.teams.includes(team))?.[0]||'';
+      }else return;
+      rows.push([seatId,d,name,ip,team,wa,status]
+        .map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+    });
+  });
+  dl(h+rows.join('\r\n'),'mhsc_schedule.csv','text/csv');
+}
+function dl(content,name,type){
+  try {
+    const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([content],{type})),download:name});
+    a.click();URL.revokeObjectURL(a.href);
+  } catch(e) {
+    alert('Downloads are blocked in this viewer. Please open the file directly in your browser.');
+  }
+}
+
+// ═══════════════════════════════════════
+// CSV IMPORT / EXPORT (editable round-trip)
+// ═══════════════════════════════════════
+
+// Minimal CSV parser — handles RFC 4180 quoted fields
+function parseCSV(text){
+  const lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim());
+  if(!lines.length)return[];
+  function parseLine(line){
+    const fields=[];let i=0;
+    while(i<=line.length){
+      if(i===line.length){fields.push('');break;}
+      if(line[i]==='"'){
+        let val='';i++;
+        while(i<line.length){
+          if(line[i]==='"'&&line[i+1]==='"'){val+='"';i+=2;}
+          else if(line[i]==='"'){i++;break;}
+          else{val+=line[i];i++;}
+        }
+        fields.push(val);
+        if(line[i]===',')i++;
+      }else{
+        const end=line.indexOf(',',i);
+        if(end===-1){fields.push(line.slice(i).trim());break;}
+        fields.push(line.slice(i,end).trim());i=end+1;
+      }
+    }
+    return fields;
+  }
+  const headers=parseLine(lines[0]).map(h=>h.toLowerCase().replace(/[^a-z0-9_]/g,'_').trim());
+  return lines.slice(1).filter(l=>l.trim()).map(line=>{
+    const vals=parseLine(line);
+    const obj={};
+    headers.forEach((h,idx)=>{obj[h]=vals[idx]||'';});
+    return obj;
+  });
+}
+
+// ── Members CSV ─────────────────────────────────────
+// Columns: name, nickname, team, ip
+function exportMembersCSV(){
+  const header='name,nickname,team,ip\r\n';
+  const rows=roster.map(p=>
+    [p.name,p.nickname||p.name,p.team,p.ip||'']
+      .map(v=>`"${String(v||'').replace(/"/g,'""')}"`)
+      .join(',')
+  );
+  dl(header+rows.join('\r\n'),'members.csv','text/csv');
+}
+
+function importMembersCSV(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const rows=parseCSV(e.target.result);
+      if(!rows.length){alert('CSV appears empty.');return;}
+      const newRoster=rows
+        .filter(r=>(r.name||r.nickname).trim())
+        .map(r=>({
+          name:     (r.name||r.nickname||'').trim(),
+          nickname: (r.nickname||r.name||'').trim(),
+          team:     (r.team||'').trim(),
+          ip:       (r.ip||'').trim(),
+        }));
+      if(!newRoster.length){alert('No valid rows found.\nExpected columns: name, nickname, team, ip');return;}
+      roster=newRoster;
+      indSave();renderEditor();renderDashboard();
+      alert('Imported '+newRoster.length+' members.');
+    }catch(err){alert('Error parsing CSV: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ── Schedule CSV ─────────────────────────────────────
+// Columns: seat, mon_name, mon_ip, mon_unavail, tue_name, …, fri_unavail
+const _SCHED_CSV_DAYS=[
+  {prefix:'mon',full:'Monday'},
+  {prefix:'tue',full:'Tuesday'},
+  {prefix:'wed',full:'Wednesday'},
+  {prefix:'thu',full:'Thursday'},
+  {prefix:'fri',full:'Friday'},
+];
+
+function exportScheduleCSV(){
+  const hdr=['seat'];
+  _SCHED_CSV_DAYS.forEach(d=>hdr.push(d.prefix+'_name',d.prefix+'_ip',d.prefix+'_unavail'));
+  const header=hdr.map(v=>`"${v}"`).join(',')+'\r\n';
+  const rows=ALL_SEATS.filter(s=>!isNA(s)).map(seatId=>{
+    const cols=[`"${seatId}"`];
+    _SCHED_CSV_DAYS.forEach(d=>{
+      const cell=scheduleData[seatId]?.[d.full]||{name:'',ip:'',unavailable:false};
+      cols.push(
+        `"${String(cell.name||'').replace(/"/g,'""')}"`,
+        `"${String(cell.ip||'').replace(/"/g,'""')}"`,
+        `"${cell.unavailable?'true':''}"`
+      );
+    });
+    return cols.join(',');
+  });
+  dl(header+rows.join('\r\n'),'schedule.csv','text/csv');
+}
+
+function importScheduleCSV(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const rows=parseCSV(e.target.result);
+      if(!rows.length){alert('CSV appears empty.');return;}
+      let updated=0;
+      rows.forEach(row=>{
+        const seatId=(row.seat||'').trim();
+        if(!seatId||isNA(seatId)||!scheduleData[seatId])return;
+        _SCHED_CSV_DAYS.forEach(d=>{
+          const name=(row[d.prefix+'_name']||'').trim();
+          const ip  =(row[d.prefix+'_ip']  ||'').trim();
+          const unavail=(row[d.prefix+'_unavail']||'').trim().toLowerCase()==='true';
+          scheduleData[seatId][d.full]={name,ip,unavailable:unavail};
+        });
+        updated++;
+      });
+      indSave();renderEditor();renderDashboard();
+      alert('Updated '+updated+' seats.');
+    }catch(err){alert('Error parsing CSV: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ═══════════════════════════════════════
+// SEAT PLAN CREATOR
+// ═══════════════════════════════════════
+const _PLAN_KEY='mhsc_seat_plans_v1';
+let seatPlans=[];
+let activePlanId=null;
+let _dragData=null;
+let _plannerEventsAttached=false;
+
+function _planGenId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+
+function loadPlans(){
+  try{const s=localStorage.getItem(_PLAN_KEY);if(s)seatPlans=JSON.parse(s);}catch(e){seatPlans=[];}
+  if(!seatPlans.length)seatPlans=[{id:_planGenId(),name:'Plan 1',seats:{}}];
+  if(!activePlanId||!seatPlans.find(p=>p.id===activePlanId))activePlanId=seatPlans[0].id;
+  _savePlans();
+}
+
+function _savePlans(){try{localStorage.setItem(_PLAN_KEY,JSON.stringify(seatPlans));}catch(e){}}
+
+function _activePlan(){return seatPlans.find(p=>p.id===activePlanId)||seatPlans[0];}
+
+function createNewPlan(){
+  const p={id:_planGenId(),name:'Plan '+(seatPlans.length+1),seats:{}};
+  seatPlans.push(p);activePlanId=p.id;_savePlans();renderPlanner();
+}
+
+function duplicatePlan(){
+  const src=_activePlan();
+  const p={id:_planGenId(),name:src.name+' copy',seats:Object.assign({},src.seats)};
+  seatPlans.push(p);activePlanId=p.id;_savePlans();renderPlanner();
+}
+
+function deletePlan(id){
+  if(seatPlans.length<=1){alert('Cannot delete the only plan.');return;}
+  if(!confirm('Delete this plan?'))return;
+  seatPlans=seatPlans.filter(p=>p.id!==id);
+  if(activePlanId===id)activePlanId=seatPlans[0].id;
+  _savePlans();renderPlanner();
+}
+
+function clearPlan(){
+  if(!confirm('Clear all seat assignments from this plan?'))return;
+  _activePlan().seats={};_savePlans();renderPlanner();
+}
+
+function renderPlanner(){
+  _attachPlannerDropZones();
+  _renderPlanTabs();
+  _renderMemberList();
+  _renderPlannerFP();
+}
+
+function _attachPlannerDropZones(){
+  if(_plannerEventsAttached)return;
+  _plannerEventsAttached=true;
+  const panel=document.getElementById('planner-member-panel');
+  const hint=document.getElementById('planner-drop-hint');
+  if(!panel)return;
+  panel.addEventListener('dragover',function(e){
+    if(!_dragData||_dragData.type!=='seat')return;
+    e.preventDefault();e.dataTransfer.dropEffect='move';
+    if(hint)hint.classList.add('over');
+  });
+  panel.addEventListener('dragleave',function(e){
+    if(!panel.contains(e.relatedTarget)&&hint)hint.classList.remove('over');
+  });
+  panel.addEventListener('drop',function(e){
+    e.preventDefault();
+    if(hint)hint.classList.remove('over');
+    if(!_dragData||_dragData.type!=='seat')return;
+    const p=_activePlan();
+    delete p.seats[_dragData.fromSeat];
+    _dragData=null;_savePlans();renderPlanner();
+  });
+}
+
+function _renderPlanTabs(){
+  const c=document.getElementById('plan-tabs');if(!c)return;
+  c.innerHTML='';
+  seatPlans.forEach(function(plan){
+    const tab=document.createElement('div');
+    tab.className='plan-tab'+(plan.id===activePlanId?' active':'');
+    tab.onclick=function(){activePlanId=plan.id;renderPlanner();};
+    const ni=document.createElement('input');
+    ni.type='text';ni.value=plan.name;ni.title='Click to rename';
+    ni.style.cssText='background:none;border:none;color:inherit;font-size:12px;font-family:inherit;cursor:text;padding:0;outline:none;min-width:30px;max-width:120px';
+    ni.size=Math.max(5,plan.name.length);
+    ni.onclick=function(e){e.stopPropagation();activePlanId=plan.id;renderPlanner();};
+    ni.ondblclick=function(e){e.stopPropagation();ni.select();};
+    ni.onchange=function(){plan.name=ni.value.trim()||'Untitled';ni.size=Math.max(5,plan.name.length);_savePlans();_renderPlanTabs();};
+    ni.oninput=function(){ni.size=Math.max(5,ni.value.length);};
+    tab.appendChild(ni);
+    if(seatPlans.length>1){
+      const x=document.createElement('button');
+      x.className='plan-tab-del';x.innerHTML='✕';x.title='Delete plan';
+      x.onclick=function(e){e.stopPropagation();deletePlan(plan.id);};
+      tab.appendChild(x);
+    }
+    c.appendChild(tab);
+  });
+  const stat=document.getElementById('planner-stat');
+  if(stat){
+    const p=_activePlan();
+    const n=Object.values(p.seats).filter(Boolean).length;
+    const tot=ALL_SEATS.filter(function(s){return!isNA(s);}).length;
+    stat.textContent='🪑 '+n+' / '+tot;
+  }
+}
+
+function _renderMemberList(){
+  const c=document.getElementById('planner-member-list');if(!c)return;
+  const p=_activePlan();
+  const assigned=new Set(Object.values(p.seats).filter(Boolean));
+  const nickToSeat={};
+  Object.entries(p.seats).forEach(function(e){if(e[1])nickToSeat[e[1]]=e[0];});
+  const q=(document.getElementById('planner-msrch')?document.getElementById('planner-msrch').value:'').toLowerCase().trim();
+  let members=roster.slice();
+  if(q)members=members.filter(function(m){
+    return (m.nickname||m.name||'').toLowerCase().indexOf(q)>=0||(m.team||'').toLowerCase().indexOf(q)>=0;
+  });
+  members.sort(function(a,b){
+    const aN=assigned.has(a.nickname||a.name),bN=assigned.has(b.nickname||b.name);
+    if(aN!==bN)return aN?1:-1;
+    const ta=a.team||'',tb=b.team||'';
+    return ta.localeCompare(tb)||((a.nickname||a.name||'').localeCompare(b.nickname||b.name||''));
+  });
+  c.innerHTML='';
+  const freeCount=members.filter(function(m){return!assigned.has(m.nickname||m.name);}).length;
+  const ct=document.getElementById('planner-mbr-ct');
+  if(ct)ct.textContent=freeCount+' free';
+  members.forEach(function(m){
+    const nick=m.nickname||m.name;
+    const isAssigned=assigned.has(nick);
+    const seatId=nickToSeat[nick];
+    const v=TV[m.team];
+    const card=document.createElement('div');
+    card.className='mc'+(isAssigned?' assigned':'');
+    card.draggable=true;
+    card.dataset.nick=nick;
+    if(v)card.style.cssText='background:var(--t-'+v+'-bg);color:var(--t-'+v+'-tx);border-color:var(--t-'+v+'-bo)';
+    card.innerHTML='<div class="mc-name">'+esc(nick)+'</div><div class="mc-team">'+esc(m.team||'—')+'</div>'+(seatId?'<div class="mc-seat">📍 '+esc(seatId)+'</div>':'');
+    card.addEventListener('dragstart',function(e){
+      _dragData={type:'member',nick:nick};
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain',nick);
+      setTimeout(function(){card.classList.add('dragging');},0);
+    });
+    card.addEventListener('dragend',function(){
+      card.classList.remove('dragging');
+      _dragData=null;
+      document.querySelectorAll('.psc.drop-over').forEach(function(el){el.classList.remove('drop-over');});
+    });
+    c.appendChild(card);
+  });
+}
+
+function _renderPlannerFP(){
+  const fp=document.getElementById('planner-fp');if(!fp)return;
+  const p=_activePlan();
+  fp.innerHTML='';
+  LAYOUT.forEach(function(row,ri){
+    if(ri>0){const d=document.createElement('div');d.className='rg';fp.appendChild(d);}
+    const lr=document.createElement('div');lr.className='rl-row';
+    lr.innerHTML='<div class="rl" style="grid-column:1/5">'+row.left[0].slice(0,5)+'</div><div></div><div class="rl" style="grid-column:6/10">'+row.right[0].slice(0,5)+'</div>';
+    fp.appendChild(lr);
+    const grid=document.createElement('div');grid.className='sg';
+    var seats=row.left.concat(['AISLE']).concat(row.right);
+    seats.forEach(function(sid){
+      if(sid==='AISLE'){var a=document.createElement('div');a.className='aisle';grid.appendChild(a);return;}
+      _buildPSC(sid,p,grid);
+    });
+    fp.appendChild(grid);
+  });
+}
+
+function _buildPSC(sid,plan,parent){
+  const card=document.createElement('div');
+  card.className='psc';
+  if(isNA(sid)){
+    card.classList.add('unavail');
+    card.innerHTML='<div class="psc-id">'+esc(sid)+'</div><div class="psc-hint">N/A</div>';
+    parent.appendChild(card);return;
+  }
+  const nick=plan.seats[sid]||null;
+  const member=nick?roster.find(function(r){return(r.nickname||r.name)===nick;}):null;
+  const v=member?TV[member.team]:null;
+  if(nick){
+    card.classList.add('occupied');
+    if(v)card.style.cssText='background:var(--t-'+v+'-bg);color:var(--t-'+v+'-tx);border-color:var(--t-'+v+'-bo)';
+    card.draggable=true;
+    card.innerHTML='<div class="sc-h"><span class="psc-id">'+esc(sid)+'</span><button class="psc-x" title="Remove" onclick="unassignPlannerSeat(\''+esc(sid)+'\',event)">✕</button></div><div class="psc-nm">'+esc(nick)+'</div><span class="psc-tg">'+esc(member?member.team:'')+'</span>';
+    card.addEventListener('dragstart',function(e){
+      _dragData={type:'seat',fromSeat:sid,nick:nick};
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain',nick);
+      setTimeout(function(){card.style.opacity='0.35';},0);
+    });
+    card.addEventListener('dragend',function(){
+      card.style.opacity='';_dragData=null;
+      document.querySelectorAll('.psc.drop-over').forEach(function(el){el.classList.remove('drop-over');});
+    });
+  }else{
+    card.classList.add('empty');
+    card.innerHTML='<div class="psc-id">'+esc(sid)+'</div><div class="psc-hint">Drop here</div>';
+  }
+  card.addEventListener('dragover',function(e){
+    if(!_dragData)return;
+    if(_dragData.type==='seat'&&_dragData.fromSeat===sid)return;
+    e.preventDefault();e.dataTransfer.dropEffect='move';
+    card.classList.add('drop-over');
+  });
+  card.addEventListener('dragleave',function(e){
+    if(!card.contains(e.relatedTarget))card.classList.remove('drop-over');
+  });
+  card.addEventListener('drop',function(e){
+    e.preventDefault();card.classList.remove('drop-over');
+    if(!_dragData)return;
+    const p=_activePlan();
+    if(_dragData.type==='member'){
+      const dn=_dragData.nick;
+      var prev=null;
+      Object.entries(p.seats).forEach(function(kv){if(kv[1]===dn)prev=kv[0];});
+      if(prev)delete p.seats[prev];
+      p.seats[sid]=dn;
+    }else{
+      const fromSeat=_dragData.fromSeat,dn=_dragData.nick;
+      const tgt=p.seats[sid]||null;
+      if(tgt)p.seats[fromSeat]=tgt;else delete p.seats[fromSeat];
+      p.seats[sid]=dn;
+    }
+    _dragData=null;_savePlans();renderPlanner();
+  });
+  parent.appendChild(card);
+}
+
+function unassignPlannerSeat(sid,e){
+  if(e)e.stopPropagation();
+  const p=_activePlan();delete p.seats[sid];_savePlans();renderPlanner();
+}
+
+// Robust init — handles sandbox restrictions
+window.addEventListener('error', function(e) {
+  console.error('Script error:', e.message);
+  var lb = document.getElementById('lbox');
+  if (lb && !document.getElementById('fp')?.children.length) {
+    lb.innerHTML = '<div style="padding:20px;text-align:center"><div style="font-size:38px;color:#f87171">⚠</div><h2 style="margin:10px 0">Cannot open here</h2><p style="color:#a09d98;font-size:13px;margin-bottom:10px">This page uses features that don\'t work in Teams preview. Please:</p><ol style="text-align:left;color:#a09d98;font-size:13px;line-height:1.8;padding-left:20px"><li>Tap the <b>⋯</b> menu</li><li>Choose <b>Download</b> or <b>Save</b></li><li>Open the file from your <b>Files</b> app or <b>Downloads</b></li></ol></div>';
+  }
+});
+
+try {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+} catch(e) {
+  console.error('Init failed:', e);
+}
+</script>
+</body>
+</html>
