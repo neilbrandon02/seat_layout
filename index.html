@@ -104,9 +104,10 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg1);padding:2px 5p
 .day-tab.active{background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:500}
 .day-bdg{font-size:10px;background:var(--bg1);color:var(--tx3);border-radius:4px;padding:1px 5px}
 .day-tab.active .day-bdg{background:var(--ac);color:#fff}
-.srch{position:relative;flex:1;min-width:150px;max-width:240px}
+.srch{position:relative;flex:1;min-width:150px;max-width:240px;display:flex;align-items:center}
 .srch .ti-search{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:14px;pointer-events:none}
-.srch input{padding-left:28px;height:30px}
+.srch-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:13px;line-height:1;pointer-events:none}
+.srch input{padding-left:28px;height:30px;flex:1;width:100%}
 .seat-ct{font-size:11px;color:var(--tx3);white-space:nowrap;display:flex;align-items:center;gap:4px}
 
 /* ── filter bar: workarea + team chips ────────── */
@@ -227,6 +228,7 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   .srch {max-width:100%;width:100%;min-width:0}
   .srch input {height:40px;font-size:14px;padding-left:34px}
   .srch .ti-search {font-size:16px;left:10px}
+  .srch-icon{font-size:16px;left:10px}
   .seat-ct {font-size:12px;justify-content:center;text-align:center;padding:4px 0}
   
   /* Filter bar */
@@ -782,7 +784,7 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
     <div class="day-tabs" id="day-tabs"></div>
     <div class="cbar-row">
       <div class="srch">
-        🔍
+        <span class="srch-icon">🔍</span>
         <input id="srch-inp" placeholder="Find a person or team…" oninput="renderFloorPlan()" aria-label="Search">
       </div>
       <button onclick="findMe()" style="flex-shrink:0;white-space:nowrap" title="Highlight your seat today">🎯 Find me</button>
@@ -1233,7 +1235,10 @@ function renderDashboard(){
 function renderDayTabs(){
   const c=document.getElementById('day-tabs');if(!c)return;c.innerHTML='';
   const now=new Date();const dow=now.getDay();
-  const monday=new Date(now);monday.setDate(now.getDate()-(dow===0?6:dow-1));
+  const monday=new Date(now);
+  if(dow===0)monday.setDate(now.getDate()+1);
+  else if(dow===6)monday.setDate(now.getDate()+2);
+  else monday.setDate(now.getDate()-(dow-1));
   DAYS.forEach((d,i)=>{
     const map=buildMap(d);
     const n=Object.values(map).filter(o=>o.status==='occupied').length;
