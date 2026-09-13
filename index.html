@@ -924,7 +924,10 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
       <label class="req-lbl">Output — paste to Teams</label>
       <textarea id="req-out" class="req-out" readonly rows="6"></textarea>
     </div>
-    <button class="btn-copy" id="req-copy-btn" onclick="copyReqText()">📋 Copy to clipboard</button>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn-copy" id="req-copy-btn" onclick="copyReqText()" style="flex:1">📋 Copy to clipboard</button>
+      <button class="btn-copy" onclick="draftEmail()" style="flex:1;background:var(--ac)">✉️ Draft Email</button>
+    </div>
   </div>
 </div>
 
@@ -1020,7 +1023,7 @@ const ALL_SEATS=[
 // ═══════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════
-let roster=[],scheduleData={},curDay='Mon',selSeat=null,teamFilter=null,workareaFilter=null;
+let roster=[],scheduleData={},curDay='Mon',selSeat=null,teamFilter=null,workareaFilter=null,reqOccupantEid='';
 
 function isNA(sid){return sid==='NA'||sid==='NA2';}
 
@@ -1441,8 +1444,26 @@ function openReqModal(seatId){
   const t=new Date();
   document.getElementById('req-date').value=
     `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+  const cellName=(scheduleData[seatId]?.[DAY_FULL[curDay]]?.name)||'';
+  const occ=resolveOccupant(cellName);
+  reqOccupantEid=occ?occ.name:'';
   updateReqOutput();
   document.getElementById('req-modal').classList.add('open');
+}
+function draftEmail(){
+  const to='karina.m.domingo@accenture.com,katsuya.muro@accenture.com';
+  const ccArr=[];
+  if(reqOccupantEid)ccArr.push(reqOccupantEid+'@accenture.com');
+  Object.values(TEAM_LEADS).forEach(eid=>{
+    const e=eid+'@accenture.com';
+    if(!ccArr.includes(e))ccArr.push(e);
+  });
+  const seat=document.getElementById('req-seat').value.trim()||'—';
+  const rawDate=document.getElementById('req-date').value;
+  const date=rawDate?rawDate.replace(/-/g,'/'):'—';
+  const subject=`IP Change Request – Seat ${seat} – ${date}`;
+  const body=document.getElementById('req-out').value;
+  window.location.href=`mailto:${to}?cc=${encodeURIComponent(ccArr.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 function closeReqModal(){document.getElementById('req-modal').classList.remove('open');}
 function onRequestorChange(){
