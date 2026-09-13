@@ -273,8 +273,9 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
 .req-lbl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em}
 .req-out{font-family:var(--mono);font-size:12px;background:var(--bg0);border:0.5px solid var(--bd);border-radius:8px;padding:12px;color:var(--ok);white-space:pre;line-height:1.7;resize:none;width:100%}
 .btn-copy{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-bd);width:100%;justify-content:center;font-size:13px;padding:9px}
-.btn-copy:hover{background:var(--ok-bd)}
+.btn-copy:hover:not(:disabled){background:var(--ok-bd)}
 .btn-copy.copied{background:var(--ok);color:#fff}
+.btn-copy:disabled{opacity:.38;cursor:not-allowed}
 
 /* Extra tight for phones under 400px */
 @media (max-width: 400px) {
@@ -469,7 +470,7 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
     { "name": "tricia.mae.dela.rosa",     "nickname": "Tricia",         "team": "Risk IT",          "ip": "10.153.66.173" },
     { "name": "trina.i.d.sobrepena",      "nickname": "Trina",          "team": "IR Server",        "ip": "10.153.64.15" },
     { "name": "vernon.g.s.mira",          "nickname": "Vernon",         "team": "Cash Management",  "ip": "10.153.66.67" },
-    { "name": "Erika",                    "nickname": "Erika",          "team": "Research",         "ip": "10.153.66.87" }
+    { "name": "erika.ramos",              "nickname": "Erika",          "team": "Research",         "ip": "10.153.66.87" }
   ]
 }
 </script>
@@ -925,8 +926,8 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
       <textarea id="req-out" class="req-out" readonly rows="6"></textarea>
     </div>
     <div style="display:flex;gap:8px;margin-top:4px">
-      <button class="btn-copy" id="req-copy-btn" onclick="copyReqText()" style="flex:1">📋 Copy to clipboard</button>
-      <button class="btn-copy" onclick="draftEmail()" style="flex:1;background:var(--ac)">✉️ Draft Email</button>
+      <button class="btn-copy" id="req-copy-btn" onclick="copyReqText()" style="flex:1" disabled>📋 Copy to clipboard</button>
+      <button class="btn-copy" id="req-email-btn" onclick="draftEmail()" style="flex:1;background:var(--ac)" disabled>✉️ Draft Email</button>
     </div>
   </div>
 </div>
@@ -1477,19 +1478,22 @@ function onRequestorChange(){
   updateReqOutput();
 }
 function updateReqOutput(){
-  const lead=document.getElementById('req-lead').value.trim()||'—';
-  const requestor=document.getElementById('req-requestor').value.trim()||'—';
-  const ip=document.getElementById('req-ip').value.trim()||'—';
-  const seat=document.getElementById('req-seat').value.trim()||'—';
+  const lead=document.getElementById('req-lead').value.trim();
+  const requestor=document.getElementById('req-requestor').value.trim();
+  const ip=document.getElementById('req-ip').value.trim();
+  const seat=document.getElementById('req-seat').value.trim();
   const rawDate=document.getElementById('req-date').value;
-  const date=rawDate?rawDate.replace(/-/g,'/'):'—';
+  const date=rawDate?rawDate.replace(/-/g,'/'):'';
   document.getElementById('req-out').value=
 `#IPChangeRequest
-Lead (EID): ${lead}
-Requestor (EID): ${requestor}
-IP Address: ${ip}
-Seat no: ${seat}
-Date (when to change): ${date}`;
+Lead (EID): ${lead||'—'}
+Requestor (EID): ${requestor||'—'}
+IP Address: ${ip||'—'}
+Seat no: ${seat||'—'}
+Date (when to change): ${date||'—'}`;
+  const allFilled=lead&&requestor&&ip&&seat&&date;
+  document.getElementById('req-copy-btn').disabled=!allFilled;
+  document.getElementById('req-email-btn').disabled=!allFilled;
 }
 function copyReqText(){
   const text=document.getElementById('req-out').value;
