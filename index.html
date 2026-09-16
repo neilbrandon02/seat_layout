@@ -276,6 +276,14 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
 .btn-copy:hover:not(:disabled){background:var(--ok-bd)}
 .btn-copy.copied{background:var(--ok);color:#fff}
 .btn-copy:disabled{opacity:.38;cursor:not-allowed}
+.req-sug-wrap{position:relative}
+.req-suggestions{position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--bg2);border:0.5px solid var(--bd-s);border-radius:8px;max-height:160px;overflow-y:auto;z-index:10;display:none;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.req-suggestions.show{display:block}
+.req-sug-item{padding:8px 12px;font-size:12px;cursor:pointer;transition:background .1s;display:flex;align-items:baseline;gap:6px}
+.req-sug-item:hover,.req-sug-item:focus{background:var(--ac-bg)}
+.req-sug-eid{font-family:var(--mono);color:var(--tx1);font-size:11px}
+.req-sug-nick{color:var(--tx3);font-size:11px}
+.req-reason{font-size:13px;background:var(--bg0);border:0.5px solid var(--bd);border-radius:8px;padding:10px 12px;color:var(--tx1);resize:vertical;width:100%;font-family:inherit;line-height:1.5;min-height:64px}
 
 /* Extra tight for phones under 400px */
 @media (max-width: 400px) {
@@ -903,7 +911,10 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
     </div>
     <div class="req-field">
       <label class="req-lbl">Requestor (EID)</label>
-      <input id="req-requestor" type="text" placeholder="e.g. exequiel.g.garcia" oninput="onRequestorChange()">
+      <div class="req-sug-wrap">
+        <input id="req-requestor" type="text" placeholder="e.g. exequiel.g.garcia or Exequiel" oninput="onRequestorChange()" onblur="setTimeout(()=>hideReqSug(),150)" autocomplete="off">
+        <div id="req-sug" class="req-suggestions"></div>
+      </div>
     </div>
     <div class="req-field">
       <label class="req-lbl">Lead (EID) <span style="color:var(--tx3);font-weight:400;text-transform:none;letter-spacing:0">(auto-fills from EID)</span></label>
@@ -920,6 +931,10 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
     <div class="req-field">
       <label class="req-lbl">Date (when to change)</label>
       <input id="req-date" type="date" oninput="updateReqOutput()">
+    </div>
+    <div class="req-field">
+      <label class="req-lbl">Reason</label>
+      <textarea id="req-reason" class="req-reason" rows="3" placeholder="e.g. Need access to trading system on a different network segment" oninput="updateReqOutput()"></textarea>
     </div>
     <div class="req-field">
       <label class="req-lbl">Output — paste to Teams</label>
@@ -1442,6 +1457,8 @@ function openReqModal(seatId){
   document.getElementById('req-ip').value='';
   document.getElementById('req-requestor').value='';
   document.getElementById('req-lead').value='';
+  document.getElementById('req-reason').value='';
+  hideReqSug();
   const t=new Date();
   document.getElementById('req-date').value=
     `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
@@ -1467,13 +1484,49 @@ function draftEmail(){
   window.location.href=`mailto:${to}?cc=${encodeURIComponent(ccArr.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 function closeReqModal(){document.getElementById('req-modal').classList.remove('open');}
+function hideReqSug(){const s=document.getElementById('req-sug');if(s){s.classList.remove('show');s.innerHTML='';s._matches=[];}}
+function pickRequestor(idx){
+  const sug=document.getElementById('req-sug');
+  const member=(sug._matches||[])[idx];
+  if(!member)return;
+  document.getElementById('req-requestor').value=member.name;
+  hideReqSug();
+  if(member.ip) document.getElementById('req-ip').value=member.ip.split('/')[0].trim();
+  const lead=TEAM_LEADS[member.team];
+  if(lead) document.getElementById('req-lead').value=lead;
+  updateReqOutput();
+}
 function onRequestorChange(){
-  const val=document.getElementById('req-requestor').value.trim().toLowerCase();
-  const member=roster.find(r=>(r.name||'').toLowerCase()===val);
-  if(member){
-    if(member.ip) document.getElementById('req-ip').value=member.ip.split('/')[0].trim();
-    const lead=TEAM_LEADS[member.team];
+  const raw=document.getElementById('req-requestor').value;
+  const val=raw.trim().toLowerCase();
+  const sug=document.getElementById('req-sug');
+  if(val.length<1){hideReqSug();updateReqOutput();return;}
+  const matches=roster.filter(r=>
+    (r.name||'').toLowerCase().includes(val)||
+    (r.nickname||'').toLowerCase().includes(val)
+  ).slice(0,8);
+  if(matches.length===0){hideReqSug();}
+  else{
+    sug._matches=matches;
+    sug.innerHTML=matches.map((m,i)=>
+      `<div class="req-sug-item" onmousedown="pickRequestor(${i})">` +
+      `<span class="req-sug-eid">${esc(m.name)}</span>` +
+      `<span class="req-sug-nick">${esc(m.nickname)}</span></div>`
+    ).join('');
+    sug.classList.add('show');
+  }
+  const exact=roster.find(r=>
+    (r.name||'').toLowerCase()===val||
+    (r.nickname||'').toLowerCase()===val
+  );
+  if(exact){
+    if(exact.ip) document.getElementById('req-ip').value=exact.ip.split('/')[0].trim();
+    const lead=TEAM_LEADS[exact.team];
     if(lead) document.getElementById('req-lead').value=lead;
+    if((exact.nickname||'').toLowerCase()===val&&(exact.name||'').toLowerCase()!==val){
+      document.getElementById('req-requestor').value=exact.name;
+      hideReqSug();
+    }
   }
   updateReqOutput();
 }
@@ -1484,14 +1537,16 @@ function updateReqOutput(){
   const seat=document.getElementById('req-seat').value.trim();
   const rawDate=document.getElementById('req-date').value;
   const date=rawDate?rawDate.replace(/-/g,'/'):'';
+  const reason=document.getElementById('req-reason').value.trim();
   document.getElementById('req-out').value=
 `#IPChangeRequest
 Lead (EID): ${lead||'—'}
 Requestor (EID): ${requestor||'—'}
 IP Address: ${ip||'—'}
 Seat no: ${seat||'—'}
-Date (when to change): ${date||'—'}`;
-  const allFilled=lead&&requestor&&ip&&seat&&date;
+Date (when to change): ${date||'—'}
+Reason: ${reason||'—'}`;
+  const allFilled=lead&&requestor&&ip&&seat&&date&&reason;
   document.getElementById('req-copy-btn').disabled=!allFilled;
   document.getElementById('req-email-btn').disabled=!allFilled;
 }
