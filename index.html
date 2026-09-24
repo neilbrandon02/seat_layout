@@ -399,6 +399,18 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   .fl-lbl{font-size:9px;padding:2px 4px}
   .aisle{width:4px}
 }
+
+/* ── Admin mode ─────────────────────────────────── */
+.admin-panel{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.admin-panel.open{display:flex}
+.admin-pbox{background:var(--bg2);border:0.5px solid var(--bd-s);border-radius:16px 16px 0 0;padding:20px 18px 32px;width:100%;max-width:540px;max-height:82vh;overflow-y:auto}
+.admin-day-row{display:grid;grid-template-columns:3rem 1fr 7rem;gap:6px;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--bd)}
+.admin-day-row:last-child{border-bottom:none}
+.admin-day-lbl{font-size:13px;font-weight:600;color:var(--tx2)}
+.admin-day-ip{font-size:11px;font-family:var(--mono)}
+.admin-add-form{background:var(--bg1);border-radius:8px;padding:10px;margin-bottom:10px;border:0.5px solid var(--bd)}
+.admin-roster-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--bd);font-size:13px}
+.admin-roster-item:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -780,6 +792,7 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   <div class="hdr-r">
     <span id="src-bdg" class="src-bdg" style="display:none"></span>
     <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" style="padding:5px 9px;font-size:14px;line-height:1">🌙</button>
+    <button id="admin-lock-btn" onclick="onAdminLockClick()" title="Admin setup" style="padding:5px 9px;font-size:14px;line-height:1">🔒</button>
     <nav class="view-nav">
       <button class="view-tab active" data-view="dashboard" onclick="switchView('dashboard')">⊞ Dashboard</button>
       <button class="view-tab" data-view="editor" onclick="switchView('editor')">▦ Edit</button>
@@ -789,6 +802,11 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
 </header>
 
 <div id="view-dashboard" class="view active">
+  <div id="admin-bar" style="display:none;background:var(--ok-bg);border-bottom:0.5px solid var(--ok-bd);padding:6px 18px;align-items:center;gap:8px;font-size:12px;color:var(--ok)">
+    🔓 Admin mode — tap a seat to edit its schedule
+    <button onclick="openAdminRosterPanel()" style="margin-left:auto;font-size:12px;color:var(--ok);border-color:var(--ok-bd)">👥 Roster</button>
+    <button onclick="toggleAdminMode()" style="font-size:12px;color:var(--er);border-color:var(--er-bd)">✕ Exit</button>
+  </div>
   <!-- Row 1: Day tabs + search + count -->
   <div class="cbar">
     <div class="day-tabs" id="day-tabs"></div>
@@ -832,7 +850,8 @@ table.mt td{padding:3px 4px;vertical-align:middle;border-bottom:0.5px solid var(
   <div class="ebar">
     <button onclick="document.getElementById('imp-xl').click()" title="Upload an Excel file with Schedule + Members sheets">📤 Upload Excel</button>
     <button onclick="downloadTemplate()" title="Download the current data as an Excel template you can edit">📥 Download Template</button>
-    <button onclick="exportHTML()" title="Save all changes back into the HTML file — replace the file in the repo and push to update everyone" style="background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:600">💾 Save → Download HTML</button>
+    <button id="btn-save-gh" onclick="saveAllToGitHub()" title="Commit members + schedule JSON to GitHub — changes go live for everyone in ~1-2 min" style="background:var(--ok-bg);border-color:var(--ok-bd);color:var(--ok);font-weight:600">☁ Save to GitHub</button>
+    <button onclick="exportHTML()" title="Download updated HTML as fallback — replace the file in the repo and push manually" style="background:var(--ac-bg);border-color:var(--ac-bd);color:var(--ac);font-weight:600">💾 Save → Download HTML</button>
     <input type="file" id="imp-xl" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)">
     <span style="width:1px;background:var(--bd);align-self:stretch;margin:2px 4px;display:inline-block"></span>
     <button onclick="exportMembersCSV()">⬇ Members CSV</button>
@@ -1124,8 +1143,8 @@ function showOverlay(state){
 }
 function setBadge(src){
   const b=document.getElementById('src-bdg');if(!b)return;
-  if(src==='embed'){b.className='src-bdg auto';b.innerHTML='✓ Standalone';b.style.display='inline-flex';}
-  else if(src==='cache'){b.className='src-bdg cache';b.innerHTML='💾 From cache';b.style.display='inline-flex';}
+  if(src==='live'){b.className='src-bdg auto';b.innerHTML='✓ Live data';b.style.display='inline-flex';}
+  else if(src==='embed'){b.className='src-bdg cache';b.innerHTML='📦 Embedded data';b.style.display='inline-flex';}
   else{b.className='src-bdg err';b.innerHTML='⚠ No data';b.style.display='inline-flex';}
 }
 
@@ -1154,24 +1173,35 @@ function toggleTheme(){
 })();
 
 // ═══════════════════════════════════════
-// INIT — load from embedded data
+// INIT — fetch external JSON, fall back to embedded
 // ═══════════════════════════════════════
-function init(){
-  try {
+async function init(){
+  try{
     showOverlay('loading');
-    const membersRaw  = JSON.parse(document.getElementById('data-members').textContent);
-    const scheduleRaw = JSON.parse(document.getElementById('data-schedule').textContent);
-    loadData(membersRaw, scheduleRaw);
+    let membersRaw,scheduleRaw,src='embed';
+    try{
+      const[mr,sr]=await Promise.all([
+        fetch('./data/members.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}),
+        fetch('./data/schedule.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}),
+      ]);
+      membersRaw=mr;scheduleRaw=sr;src='live';
+    }catch(_){
+      membersRaw=JSON.parse(document.getElementById('data-members').textContent);
+      scheduleRaw=JSON.parse(document.getElementById('data-schedule').textContent);
+    }
+    loadData(membersRaw,scheduleRaw);
+    setBadge(src);
     const _wd=new Date().getDay();curDay=_wd>=1&&_wd<=5?DAYS[_wd-1]:'Mon';
     loadPlans();
+    adminMode=!!ghToken();
+    updateAdminUI();
     renderAll();
     showOverlay('gone');
-    setBadge('embed');
-  } catch(e) {
-    console.error('Init error:', e);
-    var lb = document.getElementById('lbox');
-    if (lb) {
-      lb.innerHTML = '<div style="padding:20px;text-align:center"><div style="font-size:38px;color:#f87171">⚠</div><h2 style="margin:10px 0">Cannot open here</h2><p style="color:#a09d98;font-size:13px;margin-bottom:10px">This page is being blocked by the viewer. Please:</p><ol style="text-align:left;color:#a09d98;font-size:13px;line-height:1.8;padding-left:20px"><li>Tap the <b>⋯</b> menu at top-right</li><li>Choose <b>Download</b> or <b>Save</b></li><li>Open the file from <b>Files</b> app or <b>Downloads</b> folder</li></ol><p style="color:#706d68;font-size:11px;margin-top:15px">Error: ' + (e.message || 'Unknown') + '</p></div>';
+  }catch(e){
+    console.error('Init error:',e);
+    var lb=document.getElementById('lbox');
+    if(lb){
+      lb.innerHTML='<div style="padding:20px;text-align:center"><div style="font-size:38px;color:#f87171">⚠</div><h2 style="margin:10px 0">Cannot open here</h2><p style="color:#a09d98;font-size:13px;margin-bottom:10px">This page is being blocked by the viewer. Please:</p><ol style="text-align:left;color:#a09d98;font-size:13px;line-height:1.8;padding-left:20px"><li>Tap the <b>⋯</b> menu at top-right</li><li>Choose <b>Download</b> or <b>Save</b></li><li>Open the file from <b>Files</b> app or <b>Downloads</b> folder</li></ol><p style="color:#706d68;font-size:11px;margin-top:15px">Error: '+(e.message||'Unknown')+'</p></div>';
     }
   }
 }
@@ -1377,7 +1407,10 @@ function renderFloorPlan(){
       else if(occ.status==='unavailable')body=`<div class="sc-av sc-unavail">⛔ Not available</div>`;
       else body=`<div class="sc-av" style="color:var(--ok);font-style:normal;font-weight:800;font-size:14px;text-align:center;margin:auto 0;letter-spacing:.06em">FREE</div>`;
       card.innerHTML=`<div class="sc-h"><span class="sc-id">${esc(sid)}</span>${di?`<i class="ti ${di} sc-dv" title="${esc(dev||'')}"></i>`:''}</div>${body}`;
-      card.onclick=()=>{selSeat=selSeat===sid?null:sid;renderFloorPlan();renderDetail();};
+      card.onclick=()=>{
+        if(adminMode&&!isNA(sid)){openAdminSeatPanel(sid);return;}
+        selSeat=selSeat===sid?null:sid;renderFloorPlan();renderDetail();
+      };
       grid.appendChild(card);
     });
     fp.appendChild(grid);
@@ -2156,6 +2189,272 @@ function unassignPlannerSeat(sid,e){
   const p=_activePlan();delete p.seats[sid];_savePlans();renderPlanner();
 }
 
+// ═══════════════════════════════════════
+// ADMIN MODE
+// ═══════════════════════════════════════
+const GH_OWNER='neilbrandon02';
+const GH_REPO='seat_layout';
+const GH_BRANCH='main';
+
+let adminMode=false;
+let _adminEditSeat=null;
+
+function ghToken(){return localStorage.getItem('mhsc_gh_token')||'';}
+
+function onAdminLockClick(){
+  if(!ghToken()){openAdminSetup();return;}
+  toggleAdminMode();
+}
+
+function openAdminSetup(){
+  const inp=document.getElementById('admin-token-inp');
+  if(inp)inp.value=ghToken();
+  const st=document.getElementById('admin-token-status');
+  if(st){st.textContent=ghToken()?'Token stored — you can update or remove it.':'';st.style.color='var(--ok)';}
+  document.getElementById('admin-setup-modal').classList.add('open');
+}
+
+function closeAdminSetup(){document.getElementById('admin-setup-modal').classList.remove('open');}
+
+function saveAdminToken(){
+  const val=(document.getElementById('admin-token-inp')?.value||'').trim();
+  if(!val){alert('Please enter a token.');return;}
+  localStorage.setItem('mhsc_gh_token',val);
+  adminMode=true;
+  updateAdminUI();
+  closeAdminSetup();
+  renderFloorPlan();
+}
+
+function clearAdminToken(){
+  if(!confirm('Remove the stored GitHub token? Admin mode will be disabled.'))return;
+  localStorage.removeItem('mhsc_gh_token');
+  adminMode=false;
+  updateAdminUI();
+  closeAdminSetup();
+  renderFloorPlan();
+}
+
+function toggleAdminMode(){
+  if(!ghToken()){openAdminSetup();return;}
+  adminMode=!adminMode;
+  updateAdminUI();
+  renderFloorPlan();
+}
+
+function updateAdminUI(){
+  const btn=document.getElementById('admin-lock-btn');
+  const bar=document.getElementById('admin-bar');
+  if(btn){
+    if(adminMode){
+      btn.textContent='🔓';btn.title='Admin mode ON — click to disable';
+      btn.style.cssText='padding:5px 9px;font-size:14px;line-height:1;background:var(--ok-bg);border-color:var(--ok-bd);color:var(--ok)';
+    }else{
+      btn.textContent='🔒';btn.title=ghToken()?'Admin mode (click to enable)':'Admin setup';
+      btn.style.cssText='padding:5px 9px;font-size:14px;line-height:1';
+    }
+  }
+  if(bar)bar.style.display=adminMode?'flex':'none';
+}
+
+// ── Admin seat editor ──────────────────────────────────────────────
+function computeScheduleName(member){
+  const nick=member.nickname||member.name;
+  const dupes=roster.filter(m=>(m.nickname||m.name)===nick);
+  if(dupes.length<=1)return nick;
+  const waEntry=Object.entries(HIERARCHY).find(([,wa])=>wa.teams.includes(member.team));
+  return waEntry?`${waEntry[1].label}: ${nick}`:nick;
+}
+
+function openAdminSeatPanel(sid){
+  _adminEditSeat=sid;
+  document.getElementById('admin-seat-id-lbl').textContent=sid;
+  _renderAdminSeatDays(sid);
+  const st=document.getElementById('admin-gh-status');
+  if(st){st.textContent='';st.style.color='';}
+  document.getElementById('admin-seat-panel').classList.add('open');
+}
+
+function closeAdminSeatPanel(){
+  document.getElementById('admin-seat-panel').classList.remove('open');
+  _adminEditSeat=null;
+}
+
+function _renderAdminSeatDays(sid){
+  const container=document.getElementById('admin-seat-days');
+  container.innerHTML='';
+  const DAY_PAIRS=[['Mon','Monday'],['Tue','Tuesday'],['Wed','Wednesday'],['Thu','Thursday'],['Fri','Friday']];
+  const sorted=roster.slice().sort((a,b)=>(a.team||'').localeCompare(b.team||'')||(a.nickname||'').localeCompare(b.nickname||''));
+
+  DAY_PAIRS.forEach(([short,full])=>{
+    const cell=(scheduleData[sid]&&scheduleData[sid][full])||{name:'',ip:'',unavailable:false};
+    const row=document.createElement('div');
+    row.className='admin-day-row';
+
+    const lbl=document.createElement('span');
+    lbl.className='admin-day-lbl';lbl.textContent=short;
+
+    const sel=document.createElement('select');
+    sel.dataset.full=full;sel.style.fontSize='12px';
+
+    const optFree=document.createElement('option');optFree.value='';optFree.textContent='— Free —';sel.appendChild(optFree);
+    const optUnavail=document.createElement('option');optUnavail.value='__unavailable__';optUnavail.textContent='⛔ Unavailable';sel.appendChild(optUnavail);
+
+    sorted.forEach(m=>{
+      const schedName=computeScheduleName(m);
+      const opt=document.createElement('option');
+      opt.value=schedName;
+      opt.textContent=`${m.nickname||m.name} (${m.team})`;
+      opt.dataset.ip=m.ip||'';
+      sel.appendChild(opt);
+    });
+
+    if(cell.unavailable){sel.value='__unavailable__';}
+    else{sel.value=cell.name||'';}
+
+    const ipInp=document.createElement('input');
+    ipInp.className='admin-day-ip';ipInp.placeholder='IP';
+    ipInp.value=cell.ip||'';
+
+    sel.onchange=()=>{
+      const v=sel.value;
+      if(v&&v!=='__unavailable__'){
+        const opt=Array.from(sel.options).find(o=>o.value===v);
+        ipInp.value=opt?(opt.dataset.ip||'').split('/')[0].trim():'';
+      }else{ipInp.value='';}
+    };
+
+    row.appendChild(lbl);row.appendChild(sel);row.appendChild(ipInp);
+    container.appendChild(row);
+  });
+}
+
+function _readAdminSeatDays(){
+  const result={};
+  document.querySelectorAll('#admin-seat-days .admin-day-row').forEach(row=>{
+    const sel=row.querySelector('select');
+    const ip=row.querySelector('input');
+    const full=sel.dataset.full;const val=sel.value;
+    result[full]={name:val==='__unavailable__'?'':(val||''),ip:val==='__unavailable__'?'':(ip.value.trim()||''),unavailable:val==='__unavailable__'};
+  });
+  return result;
+}
+
+async function commitSeatToGitHub(){
+  if(!_adminEditSeat)return;
+  const sid=_adminEditSeat;
+  const btn=document.getElementById('admin-seat-save-btn');
+  const status=document.getElementById('admin-gh-status');
+  const days=_readAdminSeatDays();
+  Object.entries(days).forEach(([full,cell])=>{if(!scheduleData[sid])scheduleData[sid]={};scheduleData[sid][full]=cell;});
+  btn.disabled=true;btn.textContent='⟳ Saving…';
+  status.textContent='';status.style.color='';
+  try{
+    await _ghCommitJSON('data/schedule.json',{seats:scheduleData});
+    status.textContent='✓ Saved! Live in ~1–2 min.';status.style.color='var(--ok)';
+    renderDashboard();
+    setTimeout(()=>{closeAdminSeatPanel();},2000);
+  }catch(e){
+    status.textContent='⚠ '+e.message;status.style.color='var(--er)';
+  }finally{
+    btn.disabled=false;btn.textContent='☁ Save to GitHub';
+  }
+}
+
+// ── Admin roster editor ────────────────────────────────────────────
+function openAdminRosterPanel(){
+  const teamSel=document.getElementById('admin-new-team');
+  teamSel.innerHTML='<option value="">Team *</option>';
+  TEAMS.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;teamSel.appendChild(o);});
+  _renderAdminRosterList();
+  const st=document.getElementById('admin-roster-status');
+  if(st){st.textContent='';st.style.color='';}
+  document.getElementById('admin-roster-panel').classList.add('open');
+}
+
+function closeAdminRosterPanel(){document.getElementById('admin-roster-panel').classList.remove('open');}
+
+function _renderAdminRosterList(){
+  const container=document.getElementById('admin-roster-list');
+  container.innerHTML='';
+  const sorted=roster.slice().sort((a,b)=>(a.team||'').localeCompare(b.team||'')||(a.nickname||'').localeCompare(b.nickname||''));
+  sorted.forEach(m=>{
+    const actualIdx=roster.indexOf(m);
+    const item=document.createElement('div');item.className='admin-roster-item';
+    const v=TV[m.team];
+    const teamStyle=v?`color:var(--t-${v}-tx)`:'color:var(--tx2)';
+    item.innerHTML=`<span style="flex:1;font-size:13px">${esc(m.nickname||m.name)}<span style="${teamStyle};font-size:11px;margin-left:6px">${esc(m.team)}</span></span><button style="padding:3px 8px;font-size:11px;color:var(--er);border-color:var(--er-bd);flex-shrink:0" onclick="removeRosterMemberAdmin(${actualIdx})">✕</button>`;
+    container.appendChild(item);
+  });
+}
+
+function addRosterMemberAdmin(){
+  const nick=(document.getElementById('admin-new-nick')?.value||'').trim();
+  const team=document.getElementById('admin-new-team')?.value||'';
+  const eid=(document.getElementById('admin-new-eid')?.value||'').trim();
+  const ip=(document.getElementById('admin-new-ip')?.value||'').trim();
+  if(!nick||!team){alert('Nickname and Team are required.');return;}
+  roster.push({name:eid||nick,nickname:nick,team,ip});
+  document.getElementById('admin-new-nick').value='';
+  document.getElementById('admin-new-eid').value='';
+  document.getElementById('admin-new-ip').value='';
+  document.getElementById('admin-new-team').value='';
+  _renderAdminRosterList();renderEditor();
+}
+
+function removeRosterMemberAdmin(idx){
+  const m=roster[idx];if(!m)return;
+  if(!confirm(`Remove ${m.nickname||m.name} from the roster?`))return;
+  roster.splice(idx,1);_renderAdminRosterList();renderEditor();
+}
+
+async function commitRosterToGitHub(){
+  const btn=document.getElementById('admin-roster-save-btn');
+  const status=document.getElementById('admin-roster-status');
+  btn.disabled=true;btn.textContent='⟳ Saving…';
+  status.textContent='';status.style.color='';
+  try{
+    await _ghCommitJSON('data/members.json',{members:roster.map(r=>({name:r.name,nickname:r.nickname||r.name,team:r.team,ip:r.ip||''}))});
+    status.textContent='✓ Saved! Live in ~1–2 min.';status.style.color='var(--ok)';
+  }catch(e){
+    status.textContent='⚠ '+e.message;status.style.color='var(--er)';
+  }finally{
+    btn.disabled=false;btn.textContent='☁ Save Roster to GitHub';
+  }
+}
+
+// ── Save all (Editor tab button) ───────────────────────────────────
+async function saveAllToGitHub(){
+  const btn=document.getElementById('btn-save-gh');
+  if(btn){btn.disabled=true;btn.textContent='⟳ Saving…';}
+  try{
+    await _ghCommitJSON('data/members.json',{members:roster.map(r=>({name:r.name,nickname:r.nickname||r.name,team:r.team,ip:r.ip||''}))});
+    await _ghCommitJSON('data/schedule.json',{seats:scheduleData});
+    if(btn){btn.textContent='✓ Saved!';}
+    setTimeout(()=>{if(btn){btn.disabled=false;btn.textContent='☁ Save to GitHub';}},2500);
+  }catch(e){
+    alert('GitHub save failed:\n'+e.message);
+    if(btn){btn.disabled=false;btn.textContent='☁ Save to GitHub';}
+  }
+}
+
+// ── GitHub API core ────────────────────────────────────────────────
+async function _ghCommitJSON(path,data){
+  const token=ghToken();
+  if(!token)throw new Error('No GitHub token — open Admin Setup (🔒) to add one.');
+  const apiBase=`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
+  const headers={'Authorization':`Bearer ${token}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'};
+  let sha=null;
+  const getResp=await fetch(`${apiBase}?ref=${GH_BRANCH}`,{headers});
+  if(getResp.ok){sha=(await getResp.json()).sha;}
+  else if(getResp.status!==404){const e=await getResp.json().catch(()=>({}));throw new Error(`Cannot read ${path}: ${e.message||'HTTP '+getResp.status}`);}
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))));
+  const body={message:`Update ${path.split('/').pop().replace('.json','')} via seat layout admin`,content,branch:GH_BRANCH};
+  if(sha)body.sha=sha;
+  const putResp=await fetch(apiBase,{method:'PUT',headers,body:JSON.stringify(body)});
+  if(!putResp.ok){const e=await putResp.json().catch(()=>({}));throw new Error(`Cannot save ${path}: ${e.message||'HTTP '+putResp.status}`);}
+}
+
 // Robust init — handles sandbox restrictions
 window.addEventListener('error', function(e) {
   console.error('Script error:', e.message);
@@ -2175,6 +2474,71 @@ try {
   console.error('Init failed:', e);
 }
 </script>
+<!-- ══ ADMIN: Token setup modal ══════════════════════════════════ -->
+<div id="admin-setup-modal" class="req-modal" onclick="if(event.target===this)closeAdminSetup()">
+  <div class="req-box">
+    <div class="det-hdr">
+      <span class="det-title">🔑 Admin Setup</span>
+      <button class="det-x" onclick="closeAdminSetup()">✕</button>
+    </div>
+    <p style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:8px">Enter your GitHub Personal Access Token to save changes directly to GitHub from any device — no git tools needed.</p>
+    <div class="req-field">
+      <label class="req-lbl">GitHub Token (PAT)</label>
+      <input id="admin-token-inp" type="password" placeholder="ghp_…" autocomplete="off">
+    </div>
+    <div id="admin-token-status" style="font-size:12px;min-height:16px;margin-top:2px"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn-p" onclick="saveAdminToken()" style="flex:1">Enable Admin Mode</button>
+      <button onclick="clearAdminToken()" style="color:var(--er);border-color:var(--er-bd)">Remove Token</button>
+    </div>
+    <details style="margin-top:10px">
+      <summary style="font-size:11px;color:var(--tx3);cursor:pointer">How to get a token</summary>
+      <p style="font-size:11px;color:var(--tx3);line-height:1.6;margin-top:6px">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Select the <code>repo</code> scope. Copy the token and paste it above.</p>
+    </details>
+  </div>
+</div>
+
+<!-- ══ ADMIN: Seat schedule editor (bottom sheet) ════════════════ -->
+<div id="admin-seat-panel" class="admin-panel" onclick="if(event.target===this)closeAdminSeatPanel()">
+  <div class="admin-pbox">
+    <div class="det-hdr" style="margin-bottom:14px">
+      <span class="det-title">✏ Edit Seat <span id="admin-seat-id-lbl" style="font-family:var(--mono)"></span></span>
+      <button class="det-x" onclick="closeAdminSeatPanel()">✕</button>
+    </div>
+    <div id="admin-seat-days"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button id="admin-seat-save-btn" class="btn-p" onclick="commitSeatToGitHub()" style="flex:1">☁ Save to GitHub</button>
+    </div>
+    <div id="admin-gh-status" style="font-size:12px;color:var(--tx2);margin-top:8px;text-align:center;min-height:18px"></div>
+  </div>
+</div>
+
+<!-- ══ ADMIN: Roster manager (bottom sheet) ══════════════════════ -->
+<div id="admin-roster-panel" class="admin-panel" onclick="if(event.target===this)closeAdminRosterPanel()">
+  <div class="admin-pbox">
+    <div class="det-hdr" style="margin-bottom:14px">
+      <span class="det-title">👥 Manage Roster</span>
+      <button class="det-x" onclick="closeAdminRosterPanel()">✕</button>
+    </div>
+    <div class="admin-add-form">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+        <input id="admin-new-nick" placeholder="Nickname *" style="height:32px">
+        <select id="admin-new-team" style="height:32px"><option value="">Team *</option></select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+        <input id="admin-new-eid" placeholder="EID (optional)" style="height:32px">
+        <input id="admin-new-ip" placeholder="IP (optional)" style="height:32px;font-family:var(--mono);font-size:11px">
+      </div>
+      <button onclick="addRosterMemberAdmin()" style="width:100%;justify-content:center">➕ Add Member</button>
+    </div>
+    <div id="admin-roster-list" style="max-height:35vh;overflow-y:auto"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button id="admin-roster-save-btn" class="btn-p" onclick="commitRosterToGitHub()" style="flex:1">☁ Save Roster to GitHub</button>
+    </div>
+    <div id="admin-roster-status" style="font-size:12px;color:var(--tx2);margin-top:8px;text-align:center;min-height:18px"></div>
+  </div>
+</div>
+
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bn-btn active" data-view="dashboard" onclick="switchView('dashboard')"><span style="font-size:16px">⊞</span><span>Dashboard</span></button>
   <button class="bn-btn" data-view="editor" onclick="switchView('editor')"><span style="font-size:16px">▦</span><span>Edit</span></button>
