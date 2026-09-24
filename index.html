@@ -2314,7 +2314,11 @@ function _renderAdminSeatDays(sid){
     });
 
     if(cell.unavailable){sel.value='__unavailable__';}
-    else{sel.value=cell.name||'';}
+    else if(cell.name){
+      // Resolve the stored name (may have WA prefix like "FI: Trina") to its option value
+      const member=resolveOccupant(cell.name);
+      sel.value=member?computeScheduleName(member):cell.name;
+    }else{sel.value='';}
 
     const ipInp=document.createElement('input');
     ipInp.className='admin-day-ip';ipInp.placeholder='IP';
