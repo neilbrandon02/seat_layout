@@ -731,17 +731,17 @@
     },
     "21.68A": {
       "Monday": {
-        "name": "FI: Azel",
+        "name": "Azel",
         "ip": "",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Mike",
-        "ip": "10.153.65.66",
+        "name": "Jemuel",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Azel",
+        "name": "Azel",
         "ip": "",
         "unavailable": false
       },
@@ -751,7 +751,7 @@
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Kyle",
+        "name": "Kyle",
         "ip": "10.153.66.78",
         "unavailable": false
       }
