@@ -2202,8 +2202,7 @@ let _adminEditSeat=null;
 function ghToken(){return localStorage.getItem('mhsc_gh_token')||'';}
 
 function onAdminLockClick(){
-  if(!ghToken()){openAdminSetup();return;}
-  toggleAdminMode();
+  openAdminSetup();
 }
 
 function openAdminSetup(){
@@ -2211,6 +2210,11 @@ function openAdminSetup(){
   if(inp)inp.value=ghToken();
   const st=document.getElementById('admin-token-status');
   if(st){st.textContent=ghToken()?'Token stored — you can update or remove it.':'';st.style.color='var(--ok)';}
+  const toggleBtn=document.getElementById('admin-setup-toggle-btn');
+  if(toggleBtn){
+    if(adminMode){toggleBtn.textContent='✕ Disable Admin Mode';toggleBtn.style.background='var(--er-bg)';toggleBtn.style.borderColor='var(--er-bd)';toggleBtn.style.color='var(--er)';toggleBtn.onclick=()=>{adminMode=false;updateAdminUI();renderFloorPlan();closeAdminSetup();};}
+    else{toggleBtn.textContent='Enable Admin Mode';toggleBtn.style.background='';toggleBtn.style.borderColor='';toggleBtn.style.color='';toggleBtn.onclick=saveAdminToken;}
+  }
   document.getElementById('admin-setup-modal').classList.add('open');
 }
 
@@ -2488,7 +2492,7 @@ try {
     </div>
     <div id="admin-token-status" style="font-size:12px;min-height:16px;margin-top:2px"></div>
     <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn-p" onclick="saveAdminToken()" style="flex:1">Enable Admin Mode</button>
+      <button id="admin-setup-toggle-btn" class="btn-p" onclick="saveAdminToken()" style="flex:1">Enable Admin Mode</button>
       <button onclick="clearAdminToken()" style="color:var(--er);border-color:var(--er-bd)">Remove Token</button>
     </div>
     <details style="margin-top:10px">
