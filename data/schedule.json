@@ -866,28 +866,28 @@
     },
     "21.70D": {
       "Monday": {
-        "name": "FI: Sting",
+        "name": "",
         "ip": "10.153.64.17",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Neil",
+        "name": "",
         "ip": "10.153.65.34",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Sting",
+        "name": "",
         "ip": "10.153.64.17",
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Erika",
+        "name": "",
         "ip": "10.153.66.87",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Alliah",
-        "ip": "10.153.65.137",
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
