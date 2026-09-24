@@ -488,12 +488,12 @@
     },
     "21.68G": {
       "Monday": {
-        "name": "FI: Franz",
+        "name": "Franz",
         "ip": "10.153.66.58",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "CO: Prince",
+        "name": "Prince",
         "ip": "10.153.64.48",
         "unavailable": false
       },
@@ -503,13 +503,13 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Franz",
+        "name": "Franz",
         "ip": "10.153.66.58",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "Prince",
+        "ip": "10.153.64.48",
         "unavailable": false
       }
     },
