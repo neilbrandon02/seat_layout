@@ -461,28 +461,28 @@
     },
     "21.68F": {
       "Monday": {
-        "name": "FI: Trina",
+        "name": "",
         "ip": "10.153.64.15",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "CO: Alliah",
+        "name": "",
         "ip": "10.153.65.137",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Chauncey",
+        "name": "",
         "ip": "10.153.66.59",
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Trina",
+        "name": "",
         "ip": "10.153.64.15",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "Alliah",
+        "ip": "10.153.65.137",
         "unavailable": false
       }
     },
