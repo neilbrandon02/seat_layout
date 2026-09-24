@@ -434,27 +434,27 @@
     },
     "21.68E": {
       "Monday": {
-        "name": "FI: Calvin",
+        "name": "Calvin",
         "ip": "10.153.65.97",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Calvin",
+        "name": "Calvin",
         "ip": "10.153.65.97",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: PatrickG",
+        "name": "PatrickG",
         "ip": "10.153.64.117",
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Calvin",
+        "name": "Calvin",
         "ip": "10.153.65.97",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
+        "name": "Jemuel",
         "ip": "",
         "unavailable": false
       }
