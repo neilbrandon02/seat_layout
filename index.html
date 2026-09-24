@@ -2350,11 +2350,17 @@ async function commitSeatToGitHub(){
   const btn=document.getElementById('admin-seat-save-btn');
   const status=document.getElementById('admin-gh-status');
   const days=_readAdminSeatDays();
-  Object.entries(days).forEach(([full,cell])=>{if(!scheduleData[sid])scheduleData[sid]={};scheduleData[sid][full]=cell;});
   btn.disabled=true;btn.textContent='⟳ Saving…';
   status.textContent='';status.style.color='';
   try{
-    await _ghCommitJSON('data/schedule.json',{seats:scheduleData});
+    // Fetch the current live schedule so we only overwrite this one seat
+    const liveData=await _ghFetchJSON('data/schedule.json');
+    const liveSeats=liveData.seats||{};
+    if(!liveSeats[sid])liveSeats[sid]={};
+    Object.entries(days).forEach(([full,cell])=>{liveSeats[sid][full]=cell;});
+    // Update in-memory view to match what we're saving
+    Object.entries(days).forEach(([full,cell])=>{if(!scheduleData[sid])scheduleData[sid]={};scheduleData[sid][full]=cell;});
+    await _ghCommitJSON('data/schedule.json',{seats:liveSeats});
     status.textContent='✓ Saved! Live in ~1–2 min.';status.style.color='var(--ok)';
     renderDashboard();
     setTimeout(()=>{closeAdminSeatPanel();},2000);
@@ -2418,6 +2424,7 @@ async function commitRosterToGitHub(){
   btn.disabled=true;btn.textContent='⟳ Saving…';
   status.textContent='';status.style.color='';
   try{
+    // Roster panel shows all members; safe to commit the full in-memory roster
     await _ghCommitJSON('data/members.json',{members:roster.map(r=>({name:r.name,nickname:r.nickname||r.name,team:r.team,ip:r.ip||''}))});
     status.textContent='✓ Saved! Live in ~1–2 min.';status.style.color='var(--ok)';
   }catch(e){
@@ -2443,6 +2450,16 @@ async function saveAllToGitHub(){
 }
 
 // ── GitHub API core ────────────────────────────────────────────────
+async function _ghFetchJSON(path){
+  const token=ghToken();
+  if(!token)throw new Error('No GitHub token — open Admin Setup (🔒) to add one.');
+  const headers={'Authorization':`Bearer ${token}`,'Accept':'application/vnd.github+json'};
+  const resp=await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}&t=${Date.now()}`,{headers,cache:'no-store'});
+  if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(`Cannot fetch ${path}: ${e.message||'HTTP '+resp.status}`);}
+  const info=await resp.json();
+  return JSON.parse(decodeURIComponent(escape(atob(info.content.replace(/\n/g,'')))));
+}
+
 async function _ghCommitJSON(path,data){
   const token=ghToken();
   if(!token)throw new Error('No GitHub token — open Admin Setup (🔒) to add one.');
