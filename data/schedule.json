@@ -120,7 +120,7 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "OP: Tricia",
+        "name": "Tricia",
         "ip": "10.153.66.173",
         "unavailable": false
       },
@@ -130,8 +130,8 @@
         "unavailable": false
       },
       "Friday": {
-        "name": "OP: Tricia",
-        "ip": "10.153.66.173",
+        "name": "Elliot",
+        "ip": "",
         "unavailable": false
       }
     },
