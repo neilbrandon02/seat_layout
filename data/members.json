@@ -365,6 +365,12 @@
       "nickname": "Jemuel",
       "team": "Cash Management",
       "ip": ""
+    },
+    {
+      "name": "Elliot",
+      "nickname": "Elliot",
+      "team": "MarketDB",
+      "ip": ""
     }
   ]
 }
