@@ -17,20 +17,20 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "PEGA-Calvin",
-        "ip": "10.153.66.45",
+        "name": "OP: Fel",
+        "ip": "10.153.64.35",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Fel",
+        "ip": "10.153.64.35",
         "unavailable": false
       }
     },
     "21.66F": {
       "Monday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Christian",
+        "ip": "10.153.66.8",
         "unavailable": false
       },
       "Tuesday": {
@@ -44,25 +44,25 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "PEGA-Andrea",
-        "ip": "10.153.64.46",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Christian",
+        "ip": "10.153.66.8",
         "unavailable": false
       }
     },
     "21.66G": {
       "Monday": {
-        "name": "PEGA-Aenon",
-        "ip": "10.153.64.14",
+        "name": "OP: Patrick",
+        "ip": "10.153.64.213",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "PEGA-Aenon",
-        "ip": "10.153.64.14",
+        "name": "PEGA-Andrea",
+        "ip": "10.153.64.46",
         "unavailable": false
       },
       "Wednesday": {
@@ -76,8 +76,8 @@
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Patrick",
+        "ip": "10.153.64.213",
         "unavailable": false
       }
     },
@@ -88,8 +88,8 @@
         "unavailable": false
       },
       "Tuesday": {
-        "name": "PEGA-Andrea",
-        "ip": "10.153.64.46",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
@@ -103,42 +103,42 @@
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Tricia",
+        "ip": "10.153.66.173",
         "unavailable": false
       }
     },
     "21.67A": {
       "Monday": {
-        "name": "Patrick",
-        "ip": "10.153.64.213",
+        "name": "OP: Aldric",
+        "ip": "10.153.66.75",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "",
-        "ip": "",
+        "name": "CO: Jet",
+        "ip": "10.153.64.189",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "Elliot",
-        "ip": "",
+        "name": "CO: Jet",
+        "ip": "10.153.64.189",
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
-        "ip": "",
+        "name": "CO: Jet",
+        "ip": "10.153.64.189",
         "unavailable": false
       },
       "Friday": {
-        "name": "Elliot",
-        "ip": "",
+        "name": "OP: Aldric",
+        "ip": "10.153.66.75",
         "unavailable": false
       }
     },
     "21.67B": {
       "Monday": {
-        "name": "OP: Christian",
-        "ip": "10.153.66.8",
+        "name": "CO: Elliot",
+        "ip": "10.153.64.19/10.153.64.125",
         "unavailable": false
       },
       "Tuesday": {
@@ -147,25 +147,25 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "CO: Jet",
-        "ip": "",
+        "name": "CO: Elliot",
+        "ip": "10.153.64.19/10.153.64.125",
         "unavailable": false
       },
       "Thursday": {
-        "name": "CO: Kyle",
+        "name": "",
         "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Jet",
-        "ip": "",
+        "name": "OP: Ace",
+        "ip": "10.153.66.61",
         "unavailable": false
       }
     },
     "21.67C": {
       "Monday": {
-        "name": "OP: Ian",
-        "ip": "10.153.64.95/10.153.66.37",
+        "name": "CO: Debie",
+        "ip": "10.153.67.175",
         "unavailable": false
       },
       "Tuesday": {
@@ -174,18 +174,18 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "CO: Jay-ar",
-        "ip": "10.153.64.150",
+        "name": "CO: Debie",
+        "ip": "10.153.67.175",
         "unavailable": false
       },
       "Thursday": {
-        "name": "CO: Shane",
-        "ip": "10.153.64.55",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Jay-ar",
-        "ip": "10.153.64.150",
+        "name": "OP: Ian",
+        "ip": "10.153.64.95/10.153.66.37",
         "unavailable": false
       }
     },
@@ -206,35 +206,35 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "CO: Roen",
-        "ip": "10.153.64.98",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Jeff",
-        "ip": "10.153.66.69/10.153.64.2",
+        "name": "OP: Ahmad",
+        "ip": "10.153.66.108",
         "unavailable": false
       }
     },
     "21.66D": {
       "Monday": {
-        "name": "FI: PatrickG",
-        "ip": "10.153.64.117",
+        "name": "OP: Ahmad",
+        "ip": "10.153.66.108",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "PEGA-Jose",
-        "ip": "10.153.66.29",
+        "name": "OP: Fel",
+        "ip": "10.153.64.35",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Fel",
+        "ip": "10.153.64.35",
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
-        "ip": "",
+        "name": "FI: Franz",
+        "ip": "10.153.66.58",
         "unavailable": false
       },
       "Friday": {
@@ -245,23 +245,23 @@
     },
     "21.66C": {
       "Monday": {
-        "name": "FI: Chauncey",
-        "ip": "10.153.66.59",
+        "name": "OP: Ace",
+        "ip": "10.153.66.61",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "PEGA-Russel",
-        "ip": "10.153.64.44",
+        "name": "OP: Bono",
+        "ip": "10.153.66.161",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "",
-        "ip": "",
+        "name": "OP: Bono",
+        "ip": "10.153.66.161",
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
-        "ip": "",
+        "name": "FI: Trina",
+        "ip": "10.153.64.15",
         "unavailable": false
       },
       "Friday": {
@@ -272,40 +272,13 @@
     },
     "21.66B": {
       "Monday": {
-        "name": "OP: Fel",
-        "ip": "10.153.64.35",
-        "unavailable": false
-      },
-      "Tuesday": {
-        "name": "OP: Fel",
-        "ip": "10.153.64.35",
-        "unavailable": false
-      },
-      "Wednesday": {
-        "name": "OP: Fel",
-        "ip": "10.153.64.35",
-        "unavailable": false
-      },
-      "Thursday": {
-        "name": "",
-        "ip": "",
-        "unavailable": false
-      },
-      "Friday": {
-        "name": "",
-        "ip": "",
-        "unavailable": false
-      }
-    },
-    "21.66A": {
-      "Monday": {
         "name": "OP: Tricia",
         "ip": "10.153.66.173",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "OP: Ace",
-        "ip": "10.153.66.61",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
@@ -314,20 +287,47 @@
         "unavailable": false
       },
       "Thursday": {
+        "name": "FI: Jeramy",
+        "ip": "10.153.66.12",
+        "unavailable": false
+      },
+      "Friday": {
+        "name": "FI: Jeramy",
+        "ip": "10.153.66.12",
+        "unavailable": false
+      }
+    },
+    "21.66A": {
+      "Monday": {
+        "name": "OP: Ian",
+        "ip": "10.153.64.95/10.153.66.37",
+        "unavailable": false
+      },
+      "Tuesday": {
         "name": "",
         "ip": "",
         "unavailable": false
       },
-      "Friday": {
+      "Wednesday": {
         "name": "",
         "ip": "",
+        "unavailable": false
+      },
+      "Thursday": {
+        "name": "FI: Calvin",
+        "ip": "10.153.65.97",
+        "unavailable": false
+      },
+      "Friday": {
+        "name": "FI: Calvin",
+        "ip": "10.153.65.97",
         "unavailable": false
       }
     },
     "21.67G": {
       "Monday": {
-        "name": "OP: Ace",
-        "ip": "10.153.66.61",
+        "name": "CO: Karen",
+        "ip": "10.153.67.180/10.153.65.32",
         "unavailable": false
       },
       "Tuesday": {
@@ -336,52 +336,25 @@
         "unavailable": false
       },
       "Wednesday": {
+        "name": "CO: Karen",
+        "ip": "10.153.67.180/10.153.65.32",
+        "unavailable": false
+      },
+      "Thursday": {
         "name": "",
         "ip": "",
         "unavailable": false
       },
-      "Thursday": {
-        "name": "CO: Karen",
-        "ip": "10.153.67.180/10.153.65.32",
-        "unavailable": false
-      },
       "Friday": {
-        "name": "CO: Karen",
-        "ip": "10.153.67.180/10.153.65.32",
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
     "21.67F": {
       "Monday": {
-        "name": "OP: Aldric",
-        "ip": "10.153.66.75",
-        "unavailable": false
-      },
-      "Tuesday": {
         "name": "CO: Mira",
         "ip": "10.153.67.167",
-        "unavailable": false
-      },
-      "Wednesday": {
-        "name": "CO: Mira",
-        "ip": "10.153.67.167",
-        "unavailable": false
-      },
-      "Thursday": {
-        "name": "CO: Jet",
-        "ip": "",
-        "unavailable": false
-      },
-      "Friday": {
-        "name": "CO: Mira",
-        "ip": "10.153.67.167",
-        "unavailable": false
-      }
-    },
-    "21.67E": {
-      "Monday": {
-        "name": "OP: Ciara",
-        "ip": "10.153.64.1",
         "unavailable": false
       },
       "Tuesday": {
@@ -390,18 +363,45 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "CO: Debie",
-        "ip": "10.153.67.175",
+        "name": "CO: Mira",
+        "ip": "10.153.67.167",
         "unavailable": false
       },
       "Thursday": {
-        "name": "CO: Debie",
-        "ip": "10.153.67.175",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Debie",
-        "ip": "10.153.67.175",
+        "name": "",
+        "ip": "",
+        "unavailable": false
+      }
+    },
+    "21.67E": {
+      "Monday": {
+        "name": "CO: Jay-ar",
+        "ip": "10.153.64.150",
+        "unavailable": false
+      },
+      "Tuesday": {
+        "name": "",
+        "ip": "",
+        "unavailable": false
+      },
+      "Wednesday": {
+        "name": "CO: Jay-ar",
+        "ip": "10.153.64.150",
+        "unavailable": false
+      },
+      "Thursday": {
+        "name": "",
+        "ip": "",
+        "unavailable": false
+      },
+      "Friday": {
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
@@ -434,94 +434,94 @@
     },
     "21.68E": {
       "Monday": {
-        "name": "Calvin",
-        "ip": "10.153.65.97",
+        "name": "CO: Patricia",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Calvin",
-        "ip": "10.153.65.97",
+        "name": "FI: Jeramy",
+        "ip": "10.153.66.12",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "PatrickG",
-        "ip": "10.153.64.117",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Thursday": {
-        "name": "Calvin",
-        "ip": "10.153.65.97",
+        "name": "FI: PatrickG",
+        "ip": "10.153.64.117",
         "unavailable": false
       },
       "Friday": {
-        "name": "Jemuel",
-        "ip": "",
+        "name": "FI: PatrickG",
+        "ip": "10.153.64.117",
         "unavailable": false
       }
     },
     "21.68F": {
       "Monday": {
-        "name": "Trina",
-        "ip": "10.153.64.15",
+        "name": "CO: Roen",
+        "ip": "10.153.64.98",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Alliah",
-        "ip": "10.153.65.137",
-        "unavailable": false
-      },
-      "Wednesday": {
-        "name": "Chauncey",
-        "ip": "10.153.66.59",
-        "unavailable": false
-      },
-      "Thursday": {
-        "name": "Trina",
+        "name": "FI: Trina",
         "ip": "10.153.64.15",
         "unavailable": false
       },
+      "Wednesday": {
+        "name": "",
+        "ip": "",
+        "unavailable": false
+      },
+      "Thursday": {
+        "name": "FI: Chauncey",
+        "ip": "10.153.66.59",
+        "unavailable": false
+      },
       "Friday": {
-        "name": "Alliah",
-        "ip": "10.153.65.137",
+        "name": "FI: Chauncey",
+        "ip": "10.153.66.59",
         "unavailable": false
       }
     },
     "21.68G": {
       "Monday": {
-        "name": "Franz",
-        "ip": "10.153.66.58",
+        "name": "CO: Shane",
+        "ip": "10.153.64.55",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Prince",
-        "ip": "10.153.64.48",
+        "name": "FI: Franz",
+        "ip": "10.153.66.58",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "",
+        "name": "Imee",
         "ip": "",
         "unavailable": false
       },
       "Thursday": {
-        "name": "Franz",
-        "ip": "10.153.66.58",
+        "name": "FI: Exequiel",
+        "ip": "10.153.66.3",
         "unavailable": false
       },
       "Friday": {
-        "name": "Prince",
-        "ip": "10.153.64.48",
+        "name": "FI: Exequiel",
+        "ip": "10.153.66.3",
         "unavailable": false
       }
     },
     "21.68H": {
       "Monday": {
-        "name": "FI: Jeramy",
-        "ip": "10.153.66.12",
+        "name": "CO: Kyle",
+        "ip": "10.153.66.78",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Jeramy",
-        "ip": "10.153.66.12",
+        "name": "FI: Calvin",
+        "ip": "10.153.65.97",
         "unavailable": false
       },
       "Wednesday": {
@@ -530,20 +530,20 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Jeramy",
-        "ip": "10.153.66.12",
+        "name": "FI: Gian",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
+        "name": "FI: Gian",
         "ip": "",
         "unavailable": false
       }
     },
     "21.69A": {
       "Monday": {
-        "name": "FI: Muro",
-        "ip": "10.153.66.1",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
@@ -552,45 +552,45 @@
         "unavailable": false
       },
       "Wednesday": {
+        "name": "",
+        "ip": "",
+        "unavailable": false
+      },
+      "Thursday": {
         "name": "FI: Muro",
         "ip": "10.153.66.1",
         "unavailable": false
       },
-      "Thursday": {
-        "name": "OP: Tricia",
-        "ip": "10.153.66.173",
-        "unavailable": false
-      },
       "Friday": {
-        "name": "OP: Fel",
-        "ip": "10.153.64.35",
+        "name": "FI: Muro",
+        "ip": "10.153.66.1",
         "unavailable": false
       }
     },
     "21.69B": {
       "Monday": {
-        "name": "FI: Ivan",
-        "ip": "10.153.67.75/10.153.66.50",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Ivan",
-        "ip": "10.153.67.75/10.153.66.50",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Ivan",
-        "ip": "10.153.67.75/10.153.66.50",
+        "name": "CO: James",
+        "ip": "10.153.67.20",
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Ian",
-        "ip": "10.153.64.95/10.153.66.37",
+        "name": "FI: Neil",
+        "ip": "10.153.65.34",
         "unavailable": false
       },
       "Friday": {
-        "name": "OP: Bono",
-        "ip": "10.153.66.161",
+        "name": "FI: Neil",
+        "ip": "10.153.65.34",
         "unavailable": false
       }
     },
@@ -611,13 +611,13 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Patrick",
-        "ip": "10.153.64.213",
+        "name": "FI: Lea",
+        "ip": "10.153.67.95",
         "unavailable": false
       },
       "Friday": {
-        "name": "OP: Patrick",
-        "ip": "10.153.64.213",
+        "name": "FI: Lea",
+        "ip": "10.153.67.95",
         "unavailable": false
       }
     },
@@ -650,8 +650,8 @@
     },
     "21.68D": {
       "Monday": {
-        "name": "FI: Allen",
-        "ip": "10.153.64.25",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
@@ -660,52 +660,52 @@
         "unavailable": false
       },
       "Wednesday": {
+        "name": "CO: Hubert",
+        "ip": "10.153.64.24",
+        "unavailable": false
+      },
+      "Thursday": {
         "name": "FI: Allen",
         "ip": "10.153.64.25",
         "unavailable": false
       },
-      "Thursday": {
-        "name": "",
-        "ip": "",
-        "unavailable": false
-      },
       "Friday": {
-        "name": "CO: Hubert",
-        "ip": "10.153.64.24",
+        "name": "FI: Allen",
+        "ip": "10.153.64.25",
         "unavailable": false
       }
     },
     "21.68C": {
       "Monday": {
-        "name": "FI: Alpha",
-        "ip": "10.153.67.77",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "",
+        "name": "CO: Jemuel",
         "ip": "",
         "unavailable": false
       },
       "Wednesday": {
+        "name": "CO: Jemuel",
+        "ip": "",
+        "unavailable": false
+      },
+      "Thursday": {
         "name": "FI: Alpha",
         "ip": "10.153.67.77",
         "unavailable": false
       },
-      "Thursday": {
-        "name": "",
-        "ip": "",
-        "unavailable": false
-      },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "FI: Alpha",
+        "ip": "10.153.67.77",
         "unavailable": false
       }
     },
     "21.68B": {
       "Monday": {
-        "name": "FI: Arianne",
-        "ip": "10.153.66.96/10.158.23.8",
+        "name": "OP: Bono",
+        "ip": "10.153.66.161",
         "unavailable": false
       },
       "Tuesday": {
@@ -714,52 +714,52 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Arianne",
-        "ip": "10.153.66.96/10.158.23.8",
+        "name": "CO: PJ",
+        "ip": "10.153.67.88",
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
+        "name": "FI: Mika",
         "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: PJ",
-        "ip": "10.153.67.88",
+        "name": "FI: Mika",
+        "ip": "",
         "unavailable": false
       }
     },
     "21.68A": {
       "Monday": {
-        "name": "Azel",
-        "ip": "",
+        "name": "OP: Fel",
+        "ip": "10.153.64.35",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Jemuel",
-        "ip": "",
+        "name": "CO: Alliah",
+        "ip": "10.153.65.137",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "Azel",
-        "ip": "",
+        "name": "CO: Alliah",
+        "ip": "10.153.65.137",
         "unavailable": false
       },
       "Thursday": {
-        "name": "Raymond",
-        "ip": "10.153.64.23",
+        "name": "FI: Azel",
+        "ip": "10.153.65.117",
         "unavailable": false
       },
       "Friday": {
-        "name": "Kyle",
-        "ip": "10.153.66.78",
+        "name": "FI: Azel",
+        "ip": "10.153.65.117",
         "unavailable": false
       }
     },
     "21.69G": {
       "Monday": {
-        "name": "Imee",
-        "ip": "",
+        "name": "FI: Arianne",
+        "ip": "10.153.66.96/10.158.23.8",
         "unavailable": false
       },
       "Tuesday": {
@@ -768,51 +768,51 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "CO: James",
-        "ip": "10.153.67.20",
+        "name": "CO: Patricia",
+        "ip": "",
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Aldric",
-        "ip": "10.153.66.75",
+        "name": "FI: Arianne",
+        "ip": "10.153.66.96/10.158.23.8",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: James",
-        "ip": "10.153.67.20",
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
     "21.69F": {
       "Monday": {
-        "name": "",
-        "ip": "",
-        "unavailable": true
+        "name": "FI: Ivan",
+        "ip": "10.153.67.75/10.153.66.50",
+        "unavailable": false
       },
       "Tuesday": {
-        "name": "",
-        "ip": "",
-        "unavailable": true
+        "name": "FI: Ivan",
+        "ip": "10.153.67.75/10.153.66.50",
+        "unavailable": false
       },
       "Wednesday": {
-        "name": "",
-        "ip": "",
-        "unavailable": true
+        "name": "CO: Kyle",
+        "ip": "10.153.66.78",
+        "unavailable": false
       },
       "Thursday": {
-        "name": "",
-        "ip": "",
-        "unavailable": true
+        "name": "FI: Ivan",
+        "ip": "10.153.67.75/10.153.66.50",
+        "unavailable": false
       },
       "Friday": {
         "name": "",
         "ip": "",
-        "unavailable": true
+        "unavailable": false
       }
     },
     "21.69E": {
       "Monday": {
-        "name": "Abby",
+        "name": "FI: Abby",
         "ip": "10.153.67.75",
         "unavailable": false
       },
@@ -822,18 +822,18 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "Abby",
-        "ip": "10.153.67.75",
+        "name": "CO: Shane",
+        "ip": "10.153.64.55",
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Christian",
-        "ip": "10.153.66.8",
+        "name": "FI: Abby",
+        "ip": "10.153.67.75",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Shane",
-        "ip": "10.153.64.55",
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
@@ -849,79 +849,79 @@
         "unavailable": false
       },
       "Wednesday": {
+        "name": "CO: Roen",
+        "ip": "10.153.64.98",
+        "unavailable": false
+      },
+      "Thursday": {
         "name": "FI: JR",
         "ip": "10.158.23.5/10.158.23.4",
         "unavailable": false
       },
-      "Thursday": {
-        "name": "OP: Ace",
-        "ip": "10.153.66.61",
-        "unavailable": false
-      },
       "Friday": {
-        "name": "CO: Roen",
-        "ip": "10.153.64.98",
+        "name": "",
+        "ip": "",
         "unavailable": false
       }
     },
     "21.70D": {
       "Monday": {
-        "name": "Sting",
+        "name": "FI: Sting",
         "ip": "10.153.64.17",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Neil",
-        "ip": "10.153.65.34",
+        "name": "CO: Prince",
+        "ip": "10.153.64.48",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "Sting",
-        "ip": "10.153.64.17",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Thursday": {
-        "name": "Erika",
-        "ip": "10.153.66.87",
+        "name": "FI: Sting",
+        "ip": "10.153.64.17",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "CO: Raymond",
+        "ip": "10.153.64.23",
         "unavailable": false
       }
     },
     "21.70C": {
       "Monday": {
-        "name": "Gelo",
+        "name": "FI: Gelo",
         "ip": "10.153.64.16",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "Gelo",
+        "name": "FI: Gelo",
         "ip": "10.153.64.16",
         "unavailable": false
       },
       "Wednesday": {
-        "name": "Gelo",
-        "ip": "10.153.64.16",
+        "name": "CO: Prince",
+        "ip": "10.153.64.48",
         "unavailable": false
       },
       "Thursday": {
-        "name": "Jam",
-        "ip": "10.153.66.189",
+        "name": "FI: Gelo",
+        "ip": "10.153.64.16",
         "unavailable": false
       },
       "Friday": {
-        "name": "",
-        "ip": "",
+        "name": "CO: Alliah",
+        "ip": "10.153.65.137",
         "unavailable": false
       }
     },
     "21.70B": {
       "Monday": {
-        "name": "FI: Exequiel",
-        "ip": "10.153.66.3",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Tuesday": {
@@ -930,25 +930,25 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Exequiel",
-        "ip": "10.153.66.3",
+        "name": "CO: Vernon",
+        "ip": "10.153.66.67",
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Darwin",
-        "ip": "10.153.67.183",
+        "name": "TBD1",
+        "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Vernon",
-        "ip": "10.153.66.67",
+        "name": "TBD1",
+        "ip": "",
         "unavailable": false
       }
     },
     "21.70A": {
       "Monday": {
-        "name": "FI: Neil",
-        "ip": "10.153.65.34",
+        "name": "CO: James",
+        "ip": "10.153.67.20",
         "unavailable": false
       },
       "Tuesday": {
@@ -957,30 +957,30 @@
         "unavailable": false
       },
       "Wednesday": {
-        "name": "FI: Neil",
-        "ip": "10.153.65.34",
+        "name": "CO: Raymond",
+        "ip": "10.153.64.23",
         "unavailable": false
       },
       "Thursday": {
-        "name": "FI: Mike",
-        "ip": "10.153.65.66",
+        "name": "FI: Erika",
+        "ip": "10.153.66.87",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Raymond",
-        "ip": "10.153.64.23",
+        "name": "FI: Erika",
+        "ip": "10.153.66.87",
         "unavailable": false
       }
     },
     "21.71A": {
       "Monday": {
-        "name": "FI: Erika",
-        "ip": "10.153.66.87",
+        "name": "CO: Anton",
+        "ip": "10.153.64.22/10.153.66.2",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "",
-        "ip": "",
+        "name": "FI: Neil",
+        "ip": "10.153.65.34",
         "unavailable": false
       },
       "Wednesday": {
@@ -989,20 +989,20 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
-        "ip": "",
+        "name": "FI: Jam",
+        "ip": "10.153.66.189",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Anton",
-        "ip": "10.153.64.22/10.153.66.2",
+        "name": "FI: Jam",
+        "ip": "10.153.66.189",
         "unavailable": false
       }
     },
     "21.71B": {
       "Monday": {
-        "name": "FI: Darwin",
-        "ip": "10.153.67.183",
+        "name": "CO: Mark",
+        "ip": "10.153.64.4",
         "unavailable": false
       },
       "Tuesday": {
@@ -1016,25 +1016,25 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Fel",
-        "ip": "10.153.64.35",
+        "name": "FI: Darwin",
+        "ip": "10.153.67.183",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Mark",
-        "ip": "10.153.64.4",
+        "name": "FI: Darwin",
+        "ip": "10.153.67.183",
         "unavailable": false
       }
     },
     "21.71C": {
       "Monday": {
-        "name": "FI: Mike",
-        "ip": "10.153.65.66",
+        "name": "CO: Joanna",
+        "ip": "10.153.64.42",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "OP: Bono",
-        "ip": "10.153.66.161",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
@@ -1043,25 +1043,25 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "OP: Bono",
-        "ip": "10.153.66.161",
+        "name": "FI: Mike",
+        "ip": "10.153.65.66",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Joanna",
-        "ip": "10.153.64.42",
+        "name": "FI: Mike",
+        "ip": "10.153.65.66",
         "unavailable": false
       }
     },
     "21.71D": {
       "Monday": {
-        "name": "FI: Jam",
-        "ip": "10.153.66.189",
+        "name": "CO: Angelica",
+        "ip": "10.153.65.68",
         "unavailable": false
       },
       "Tuesday": {
-        "name": "FI: Jam",
-        "ip": "10.153.66.189",
+        "name": "",
+        "ip": "",
         "unavailable": false
       },
       "Wednesday": {
@@ -1070,13 +1070,13 @@
         "unavailable": false
       },
       "Thursday": {
-        "name": "",
+        "name": "TBD2",
         "ip": "",
         "unavailable": false
       },
       "Friday": {
-        "name": "CO: Angelica",
-        "ip": "10.153.65.68",
+        "name": "TBD2",
+        "ip": "",
         "unavailable": false
       }
     }

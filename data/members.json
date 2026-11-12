@@ -359,6 +359,36 @@
       "nickname": "Jemuel",
       "team": "Cash Management",
       "ip": ""
+    },
+    {
+      "name": "Elliot",
+      "nickname": "Elliot",
+      "team": "MarketDB",
+      "ip": "10.153.64.19/10.153.64.125"
+    },
+    {
+      "name": "Ahmad",
+      "nickname": "Ahmad",
+      "team": "Risk IT",
+      "ip": "10.153.66.108"
+    },
+    {
+      "name": "Patricia",
+      "nickname": "Patricia",
+      "team": "Accounting",
+      "ip": ""
+    },
+    {
+      "name": "Gian",
+      "nickname": "Gian",
+      "team": "ODMS",
+      "ip": ""
+    },
+    {
+      "name": "Mika",
+      "nickname": "Mika",
+      "team": "ODMS",
+      "ip": ""
     }
   ]
 }
